@@ -1,6 +1,6 @@
 # Tab Manager Pro 6.0.0
 
-> A fork of the original Tab Manager extension — actively maintained, bug-fixed, and ready for Firefox, Chrome, and Brave.
+> A fork of the Tab Manager Pro extension by StefeanXO — actively maintained, bug-fixed, and ready for Firefox, Chrome, and Brave.
 
 Search through your tabs instantly, save windows for later, limit open tabs per window — and many more.
 
