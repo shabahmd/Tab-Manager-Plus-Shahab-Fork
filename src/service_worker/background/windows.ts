@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 
 import {cleanupDebounce} from "@background/tracking";
 import {getLocalStorage, getLocalStorageMap, setLocalStorage, setLocalStorageMap} from "@helpers/storage";
@@ -111,16 +111,20 @@ export async function createWindowWithSessionTabs(session: ISavedSession, tabId:
 
 	if (navigator.userAgent.search("Firefox") === -1) {
 		try {
-			const displays = await chrome.system.display.getInfo();
-			const onScreen = displays.some((display) => {
-				return filteredWindow.left >= display.bounds.left &&
-					filteredWindow.top >= display.bounds.top &&
-					filteredWindow.left < display.bounds.left + display.bounds.width &&
-					filteredWindow.top < display.bounds.top + display.bounds.height;
-			});
-			if (!onScreen) {
-				filteredWindow.left = 0;
-				filteredWindow.top = 0;
+			const systemApi = (chrome as any)["system"];
+			const displayApi = systemApi ? systemApi["display"] : undefined;
+			if (displayApi && typeof displayApi.getInfo === "function") {
+				const displays = await displayApi.getInfo();
+				const onScreen = displays.some((display: any) => {
+					return filteredWindow.left >= display.bounds.left &&
+						filteredWindow.top >= display.bounds.top &&
+						filteredWindow.left < display.bounds.left + display.bounds.width &&
+						filteredWindow.top < display.bounds.top + display.bounds.height;
+				});
+				if (!onScreen) {
+					filteredWindow.left = 0;
+					filteredWindow.top = 0;
+				}
 			}
 		} catch (e) {
 			// system.display not available, use simple clamp
@@ -205,7 +209,10 @@ async function hideWindows(windowId : number) {
 
 	let displaylayouts;
 	try {
-		displaylayouts = await chrome.system.display.getInfo();
+		const systemApi = (chrome as any)["system"];
+		const displayApi = systemApi ? systemApi["display"] : undefined;
+		if (!displayApi || typeof displayApi.getInfo !== "function") return;
+		displaylayouts = await displayApi.getInfo();
 	} catch (e) {
 		console.error("system.display.getInfo failed (non-fatal):", e);
 		return;
