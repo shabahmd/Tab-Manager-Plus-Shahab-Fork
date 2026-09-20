@@ -4,3 +4,7 @@ ts-built/
 .env
 package-firefox/
 package-chrome/
+
+# release artifacts
+*.xpi
+tab-manager-pro-*.zip
