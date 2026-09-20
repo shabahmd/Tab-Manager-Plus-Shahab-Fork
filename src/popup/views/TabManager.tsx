@@ -97,11 +97,12 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 			containerColors: {},
 			tabNames: {},
 
-			tabCount: 0,
-			hiddenCount: 0,
-			searchLen: 0,
-			toasts: [],
-		};
+            tabCount: 0,
+            hiddenCount: 0,
+            searchLen: 0,
+            searchQuery: "",
+            toasts: [],
+        };
 
 		this.addWindow = this.addWindow.bind(this);
 		this.animationsText = this.animationsText.bind(this);
@@ -384,7 +385,7 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 									searchLen={this.state.searchLen}
 									filterTabs={this.state.filterTabs}
 									dupTabs={this.state.dupTabs}
-									onChangeLayout={this.changelayout}
+									onChangeLayout={() => this.changelayout(nextLayout(this.state.layout))}
 									onDeleteTabs={this.deleteTabs}
 									onDiscardTabs={this.discardTabs}
 									onPinTabs={this.pinTabs}

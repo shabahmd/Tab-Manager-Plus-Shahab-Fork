@@ -35,7 +35,7 @@ export class TabOptions extends React.Component<ITabOptions, ITabOptionsState> {
 							name="enable_tabLimit"
 						/>
 						<label onMouseEnter={this.props.tabLimitText} htmlFor="enable_tabLimit" style={{ whiteSpace: "pre", lineHeight: "2rem" }} />
-						<label className="textlabel" htmlFor="enable_tabLimit" style={{ textAlign: "", whiteSpace: "pre", lineHeight: "2rem" }}>
+						<label className="textlabel" htmlFor="enable_tabLimit" style={{ textAlign: "start", whiteSpace: "pre", lineHeight: "2rem" }}>
 							Limit Tabs Per Window
 						</label>
 						<div className="option-description">
@@ -55,7 +55,7 @@ export class TabOptions extends React.Component<ITabOptions, ITabOptionsState> {
 						Manager in a new tab.
 					</div>
 					<div className="toggle-box half-size float-right">
-						<label className="textlabel" htmlFor="enable_tabWidth" style={{ textAlign: "", whiteSpace: "pre", lineHeight: "2rem" }}>
+						<label className="textlabel" htmlFor="enable_tabWidth" style={{ textAlign: "start", whiteSpace: "pre", lineHeight: "2rem" }}>
 							Popup Width
 						</label>
 						<input
@@ -72,7 +72,7 @@ export class TabOptions extends React.Component<ITabOptions, ITabOptionsState> {
 						<label onMouseEnter={this.props.tabWidthText} htmlFor="enable_tabWidth" style={{ whiteSpace: "pre", lineHeight: "2rem" }} />
 					</div>
 					<div className="toggle-box half-size">
-						<label className="textlabel" htmlFor="enable_tabHeight" style={{ textAlign: "", whiteSpace: "pre", lineHeight: "2rem" }}>
+						<label className="textlabel" htmlFor="enable_tabHeight" style={{ textAlign: "start", whiteSpace: "pre", lineHeight: "2rem" }}>
 							Popup Height
 						</label>
 						<input

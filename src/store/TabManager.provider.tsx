@@ -1,7 +1,8 @@
+import * as React from "react";
 import {useAppStore} from "@store/useAppStore";
 import {useTabManagerUI} from "@store/useTabManagerUI";
 import {getLocalStorage, setLocalStorage} from "@helpers/storage";
-import {debugLog} from "@helpers/debug";
+import {debugError, debugLog} from "@helpers/debug";
 
 export function TabManagerProvider({children}: { children: React.ReactNode }) {
 	return <>{children}</>;

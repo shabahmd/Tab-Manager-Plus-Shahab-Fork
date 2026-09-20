@@ -35,6 +35,9 @@ interface TabManagerUIState {
 	tabsbyid: Map<number, any>;
 	windowsbyid: Map<number, any>;
 	toasts: any[];
+	windows: any[];
+	sessions: any[];
+	lastOpenWindow: number;
 
 	setLayout: (layout: string) => void;
 	setDark: (dark: boolean) => void;
@@ -103,10 +106,13 @@ export const useTabManagerUI = create<TabManagerUIState>((set) => ({
 	searchLen: 0,
 	lastSelect: 0,
 	selection: new Set(),
-	hiddenTabs: new Set(),
+hiddenTabs: new Set(),
 	tabsbyid: new Map(),
 	windowsbyid: new Map(),
+	windows: [],
+	sessions: [],
 	toasts: [],
+	lastOpenWindow: 0,
 
 	setLayout: (layout) => set({layout}),
 	setDark: (dark) => set({dark}),

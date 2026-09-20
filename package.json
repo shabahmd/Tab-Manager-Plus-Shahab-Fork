@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "watch": "node watch.mjs",
     "build": "tsc --noEmit && node build.mjs",
-    "package:firefox": "node package-firefox.mjs"
+    "package:firefox": "node package-firefox.mjs",
+    "package:chrome": "node package-chrome.mjs"
   },
   "repository": {
     "type": "git",

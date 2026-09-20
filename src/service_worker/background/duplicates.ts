@@ -10,7 +10,7 @@ interface DuplicateGroup {
 }
 
 export async function findDuplicates(windowId?: number): Promise<DuplicateGroup[]> {
-	const query: browser.Tabs.QueryInfo = windowId !== undefined ? {windowId} : {};
+	const query: browser.Tabs.QueryQueryInfoType = windowId !== undefined ? {windowId} : {};
 	const tabs = await browser.tabs.query(query);
 	const urlMap = new Map<string, number[]>();
 

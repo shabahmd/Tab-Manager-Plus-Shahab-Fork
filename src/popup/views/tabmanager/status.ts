@@ -27,7 +27,7 @@ export function hoverTabStatus(host: StatusHost, tab : browser.Tabs.Tab): void {
 			host.update();
 		}.bind(host),
 		15000
-	);
+	) as unknown as number;
 	host.setState({resetTimeout: _reset_timeout});
 	//host.update();
 }

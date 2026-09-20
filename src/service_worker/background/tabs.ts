@@ -1,11 +1,14 @@
 ﻿"use strict";
 
-import {getLocalStorage} from "@helpers/storage";
+import * as S from "@strings";
+import {getLocalStorage, setLocalStorage} from "@helpers/storage";
 import {trackLastTab} from "@background/actions"
 import {globalTabsActive} from '@context';
 import {debounce} from "@helpers/utils";
 import {checkWindow, createWindowWithTabs} from '@background/windows';
 import * as browser from 'webextension-polyfill';
+import {ICommand} from "@types";
+import {debugError} from "@helpers/debug";
 
 export async function setupTabListeners() {
 	browser.tabs.onCreated.removeListener(tabAdded);

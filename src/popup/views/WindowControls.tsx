@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useTabManagerUI} from "@store/useTabManagerUI";
-import {hibernateWindow} from "@service_worker/background/hibernate";
+import {hibernateWindow} from "@background/hibernate";
 
 export function WindowControls({windowId}: {windowId: number}) {
 	const windows = useTabManagerUI((s) => s.windows);

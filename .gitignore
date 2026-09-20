@@ -2,3 +2,5 @@ dist/
 node_modules/
 ts-built/
 .env
+package-firefox/
+package-chrome/

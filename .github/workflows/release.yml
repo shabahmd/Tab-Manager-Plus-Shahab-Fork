@@ -1,0 +1,128 @@
+name: Build, Typecheck & Package
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run lint
+
+      - run: pnpm run build
+
+      - run: pnpm test
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm exec tsc --noEmit
+
+  package-firefox:
+    needs: [build, typecheck]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run package:firefox
+      - run: cd package-firefox && zip -r ../tab-manager-plus-firefox.xpi . && cd ..
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tab-manager-plus-firefox
+          path: tab-manager-plus-firefox.xpi
+
+  package-chrome:
+    needs: [build, typecheck]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run package:chrome
+      - run: cd package-chrome && zip -r ../tab-manager-plus-chrome.zip . && cd ..
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tab-manager-plus-chrome
+          path: tab-manager-plus-chrome.zip
+
+  package-brave:
+    needs: [build, typecheck]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run package:chrome
+      - run: cd package-chrome && zip -r ../tab-manager-plus-brave.zip . && cd ..
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tab-manager-plus-brave
+          path: tab-manager-plus-brave.zip
