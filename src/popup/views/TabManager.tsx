@@ -220,10 +220,10 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 		});
 	}
 
-	hoverHandler(tab : browser.Tabs.Tab) {
+	hoverHandler = (tab : browser.Tabs.Tab) => {
 		hoverTabStatus(this, tab);
 	}
-	hoverIcon(e : React.MouseEvent<HTMLDivElement> | string) {
+	hoverIcon = (e : React.MouseEvent<HTMLDivElement> | string) => {
 		hoverIconStatus(this, e);
 	}
 	render() {
