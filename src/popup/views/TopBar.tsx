@@ -25,7 +25,7 @@ export class TopBar extends React.Component<TopBarProps> {
 				<div className="icon windowaction donate" title="Donate a Coffee" onClick={this.props.onDonate} onMouseEnter={this.props.onHoverIcon} />
 				<div
 					className="icon windowaction rate"
-					title="Rate Tab Manager Plus"
+					title="Rate Tab Manager Pro"
 					onClick={this.props.onRate}
 					onMouseEnter={this.props.onHoverIcon}
 				/>

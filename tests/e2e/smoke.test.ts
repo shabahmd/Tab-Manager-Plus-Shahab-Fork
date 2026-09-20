@@ -1,6 +1,6 @@
 import {test, expect, describe} from "vitest";
 
-describe("Tab Manager Plus E2E Smoke Tests", () => {
+describe("Tab Manager Pro E2E Smoke Tests", () => {
 	test("extension loads without errors", async () => {
 		// This test verifies that all required files exist and are syntactically valid
 		const files = [

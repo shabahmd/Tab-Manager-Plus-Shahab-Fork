@@ -13,8 +13,8 @@ export class TabOptions extends React.Component<ITabOptions, ITabOptionsState> {
 		return (
 			<div className="logo-options" key="logo">
 				<div className="logo-box">
-					<img src="images/browsers.svg" style={{maxWidth: "3rem"}} alt="Tab Manager Plus"/>
-					<h2 key="title">Tab Manager Plus {window.extensionVersion}</h2>
+					<img src="images/browsers.svg" style={{maxWidth: "3rem"}} alt="Tab Manager Pro"/>
+					<h2 key="title">Tab Manager Pro {window.extensionVersion}</h2>
 				</div>
 			</div>
 		);
@@ -51,7 +51,7 @@ export class TabOptions extends React.Component<ITabOptions, ITabOptionsState> {
 					<h4>Popup size</h4>
 					<div className="option-description">
 						You can resize the popup here up to a maximum size of 800x600. This limitation is a browser limitation, and we cannot display a bigger popup due to
-						this. If you want to have a better overview, instead you can right click on the Tab Manager Plus icon, and `open in own tab`. This will open the Tab
+						this. If you want to have a better overview, instead you can right click on the Tab Manager Pro icon, and `open in own tab`. This will open the Tab
 						Manager in a new tab.
 					</div>
 					<div className="toggle-box half-size float-right">
@@ -399,7 +399,7 @@ export class TabOptions extends React.Component<ITabOptions, ITabOptionsState> {
 						<a href="#" onClick={this.openShortcuts}>
 							Change shortcut key
 						</a>
-						<div className="option-description">If you want to disable or change the shortcut key with which to open Tab Manager Plus, you can do so here.</div>
+						<div className="option-description">If you want to disable or change the shortcut key with which to open Tab Manager Pro, you can do so here.</div>
 					</div>
 				</div>
 				<div className="optionsBox">
@@ -434,7 +434,7 @@ export class TabOptions extends React.Component<ITabOptions, ITabOptionsState> {
 		return (
 			<div className="licenses" key="licenses">
 				<div className="license">
-					Tab Manager Plus is based on{" "}
+					Tab Manager Pro is based on{" "}
 					<a href="https://github.com/dsc/Tab-Manager" target="_blank" title="Tab-Manager">
 						dsc/Tab-Manager
 					</a>

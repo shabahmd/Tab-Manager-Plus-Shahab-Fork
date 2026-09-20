@@ -4,7 +4,7 @@ wayfinder:task
 
 ## Question
 
-How do we ensure Tab Manager Plus opens correctly in Firefox's sidebar panel, and what needs to be verified/fixed?
+How do we ensure Tab Manager Pro opens correctly in Firefox's sidebar panel, and what needs to be verified/fixed?
 
 ## Context
 

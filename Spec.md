@@ -1,4 +1,4 @@
-# Tab Manager Plus Specification
+# Tab Manager Pro Specification
 
 ## Session Model (v6.0.0+)
 Sessions are promoted to first-class citizens with the following structure:

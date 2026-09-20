@@ -1,4 +1,4 @@
-# Technical Debt - Tab Manager Plus
+# Technical Debt - Tab Manager Pro
 
 ## Session Model Promotion (High Priority)
 - **Current**: Sessions stored as raw window dumps without structured metadata

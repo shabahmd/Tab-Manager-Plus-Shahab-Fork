@@ -433,9 +433,9 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 	}
 	rateExtension() {
 		if (navigator.userAgent.search("Firefox") > -1) {
-			browser.tabs.create({ url: "https://addons.mozilla.org/en-US/firefox/addon/tab-manager-plus-for-firefox/" });
+			browser.tabs.create({ url: "https://addons.mozilla.org/en-US/firefox/addon/tab-manager-pro-for-firefox/" });
 		} else {
-			browser.tabs.create({ url: "https://chrome.google.com/webstore/detail/tab-manager-plus-for-chro/cnkdjjdmfiffagllbiiilooaoofcoeff" });
+			browser.tabs.create({ url: "https://chrome.google.com/webstore/detail/tab-manager-pro-for-chro/cnkdjjdmfiffagllbiiilooaoofcoeff" });
 		}
 		this.forceUpdate();
 	}

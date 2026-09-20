@@ -1,10 +1,10 @@
-# Tab Manager Plus 6.0.0
+# Tab Manager Pro 6.0.0
 
 > A fork of the original Tab Manager extension — actively maintained, bug-fixed, and ready for Firefox, Chrome, and Brave.
 
 Search through your tabs instantly, save windows for later, limit open tabs per window — and many more.
 
-![Tab Manager Plus](images/browsers64.png)
+![Tab Manager Pro](images/browsers64.png)
 
 ---
 

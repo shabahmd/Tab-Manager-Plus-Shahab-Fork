@@ -1,5 +1,5 @@
 {
-  "name": "tab-manager-plus",
+  "name": "tab-manager-pro",
   "version": "6.0.0",
   "description": "This is an extended version of the old Tab Manager Google Chrome extension. Should work on both Chrome and Firefox. Malware free, with a new view type and many new features.",
   "main": "index.js",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stefanXO/Tab-Manager.git"
+    "url": "git+https://github.com/shabahmd/Tab-Manager-Plus-Shahab-Fork.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/stefanXO/Tab-Manager/issues"
+    "url": "https://github.com/shabahmd/Tab-Manager-Plus-Shahab-Fork/issues"
   },
-  "homepage": "https://github.com/stefanXO/Tab-Manager#readme",
+  "homepage": "https://github.com/shabahmd/Tab-Manager-Plus-Shahab-Fork#readme",
   "packageManager": "pnpm@11.22.0",
   "devDependencies": {
     "@types/chrome": "^0.0.268",

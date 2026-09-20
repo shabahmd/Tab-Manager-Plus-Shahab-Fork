@@ -1,8 +1,8 @@
-# Wayfinder Map: Tab Manager Plus Modernization
+# Wayfinder Map: Tab Manager Pro Modernization
 
 ## Destination
 
-Modernize Tab Manager Plus for Manifest V3 across both Chrome and Firefox, while fixing critical stability, UI, and functionality bugs blocking users on modern browsers (tab suspension, dark mode, search, drag-drop, data loss, Firefox tab/window confusion, Firefox sidebar integration).
+Modernize Tab Manager Pro for Manifest V3 across both Chrome and Firefox, while fixing critical stability, UI, and functionality bugs blocking users on modern browsers (tab suspension, dark mode, search, drag-drop, data loss, Firefox tab/window confusion, Firefox sidebar integration).
 
 ## Notes
 

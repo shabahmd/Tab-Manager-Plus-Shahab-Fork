@@ -68,12 +68,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm run package:firefox
-      - run: cd package-firefox && zip -r ../tab-manager-plus-firefox.xpi . && cd ..
+      - run: cd package-firefox && zip -r ../tab-manager-pro-firefox.xpi . && cd ..
 
       - uses: actions/upload-artifact@v4
         with:
-          name: tab-manager-plus-firefox
-          path: tab-manager-plus-firefox.xpi
+          name: tab-manager-pro-firefox
+          path: tab-manager-pro-firefox.xpi
 
   package-chrome:
     needs: [build, typecheck]
@@ -94,12 +94,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm run package:chrome
-      - run: cd package-chrome && zip -r ../tab-manager-plus-chrome.zip . && cd ..
+      - run: cd package-chrome && zip -r ../tab-manager-pro-chrome.zip . && cd ..
 
       - uses: actions/upload-artifact@v4
         with:
-          name: tab-manager-plus-chrome
-          path: tab-manager-plus-chrome.zip
+          name: tab-manager-pro-chrome
+          path: tab-manager-pro-chrome.zip
 
   package-brave:
     needs: [build, typecheck]
@@ -120,9 +120,9 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm run package:chrome
-      - run: cd package-chrome && zip -r ../tab-manager-plus-brave.zip . && cd ..
+      - run: cd package-chrome && zip -r ../tab-manager-pro-brave.zip . && cd ..
 
       - uses: actions/upload-artifact@v4
         with:
-          name: tab-manager-plus-brave
-          path: tab-manager-plus-brave.zip
+          name: tab-manager-pro-brave
+          path: tab-manager-pro-brave.zip

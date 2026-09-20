@@ -6,7 +6,7 @@ wayfinder:research
 
 When browser tabs enter discarded (suspended) state, should the extension use cached tab metadata or fall back to browser API requests — and what are the failure modes of each?
 
-The issue reports that modern browsers aggressively discard background tabs, causing Tab Manager Plus to read them as "empty memory blocks," resulting in inaccurate tab counts and sorting failures.
+The issue reports that modern browsers aggressively discard background tabs, causing Tab Manager Pro to read them as "empty memory blocks," resulting in inaccurate tab counts and sorting failures.
 
 ## Context
 

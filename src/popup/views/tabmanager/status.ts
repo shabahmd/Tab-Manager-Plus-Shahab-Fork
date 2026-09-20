@@ -64,7 +64,7 @@ export function getRandomTip(): string {
 		"You can right click on a tab to select it",
 		"Press enter to move all selected tabs to a new window",
 		"Middle click to close a tab",
-		"Tab Manager Plus loves saving time",
+		"Tab Manager Pro loves saving time",
 		"To see incognito tabs, enable incognito access in the extension settings",
 		"You can drag and drop tabs to other windows",
 		"You can type to search right away",

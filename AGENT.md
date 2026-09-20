@@ -1,4 +1,4 @@
-# Agent Guidelines - Tab Manager Plus
+# Agent Guidelines - Tab Manager Pro
 
 This project follows standard agent development practices. Key guidelines:
 

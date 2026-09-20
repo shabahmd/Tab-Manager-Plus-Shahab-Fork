@@ -48,7 +48,7 @@ export function exportSessionsFile(host: SessionHost): void {
 		window.alert("You have currently no windows saved for later. There is nothing to export.");
 		return;
 	}
-	var exportName = "tab-manager-plus-backup";
+	var exportName = "tab-manager-pro-backup";
 	var today = new Date();
 	var y = today.getFullYear();
 	// JavaScript months are 0-based.
@@ -78,7 +78,7 @@ export function exportSessionsHelperText(host: SessionHost): void {
 export function importSessionsFile(host: SessionHost, evt : React.ChangeEvent<HTMLInputElement>): void {
 	if (navigator.userAgent.search("Firefox") > -1) {
 		if(window.inPopup) {
-			window.alert("Due to a Firefox bug session import does not work in the popup. Please use the options screen or open Tab Manager Plus in its' own tab");
+			window.alert("Due to a Firefox bug session import does not work in the popup. Please use the options screen or open Tab Manager Pro in its' own tab");
 			return;
 		}
 	}
