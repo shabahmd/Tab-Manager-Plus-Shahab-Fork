@@ -1,7 +1,9 @@
 import * as browser from "webextension-polyfill";
 import {useTabManagerUI} from "@store/useTabManagerUI";
-import {S} from "@strings";
+import * as S from "@strings";
+import {getLocalStorage} from "@helpers/storage";
 import {debugError} from "@helpers/debug";
+import {ICommand} from "@types";
 
 export function dirtyWindowFromStore(windowId: number): void {
 	// Uses message to trigger re-render since Window components manage own state
@@ -86,7 +88,7 @@ export async function onTabAttachedFromStore(tabId: number, attachInfo: browser.
 	dirtyWindowFromStore(attachInfo.newWindowId);
 }
 
-export async function onTabUpdatedFromStore(tabId: number, changeInfo: browser.Tabs.OnChangedInfo, tab: browser.Tabs.Tab): Promise<void> {
+export async function onTabUpdatedFromStore(tabId: number, changeInfo: browser.Tabs.OnUpdatedChangeInfoType, tab: browser.Tabs.Tab): Promise<void> {
 	const store = useTabManagerUI.getState();
 	const tabsbyid = new Map(store.tabsbyid);
 	const existing = tabsbyid.get(tabId);

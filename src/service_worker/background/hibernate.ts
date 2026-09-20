@@ -1,5 +1,5 @@
 import * as browser from "webextension-polyfill";
-import {S} from "@strings";
+import * as S from "@strings";
 import {debugError} from "@helpers/debug";
 
 export async function hibernateWindow(windowId: number): Promise<void> {

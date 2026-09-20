@@ -1,6 +1,6 @@
 import {useTabManagerUI} from "@store/useTabManagerUI";
 import * as browser from "webextension-polyfill";
-import {S} from "@strings";
+import * as S from "@strings";
 
 export async function toggleMute(tabId: number): Promise<void> {
 	try {

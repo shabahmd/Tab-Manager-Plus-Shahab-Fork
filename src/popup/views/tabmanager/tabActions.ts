@@ -58,7 +58,7 @@ export async function focusFirstSelectedTab(host: TabActionHost): Promise<void> 
 				} else {
 					await browser.runtime.sendMessage<ICommand>({command: S.focus_on_tab_and_window, saved_tab: {tabId: tab.id, windowId: window.id}});
 				}
-				if (!!window.inPopup) window.close();
+				if ((window as any).inPopup) (window as any).close();
 				return;
 			}
 		}
@@ -96,7 +96,7 @@ export async function moveSelectionToNewWindow(host: TabActionHost): Promise<voi
 			await browser.runtime.sendMessage<ICommand>({command: S.create_window_with_tabs, tabs: incognito_tabs, incognito: true});
 		}
 	}
-	if (!!window.inPopup) window.close();
+	if ((window as any).inPopup) (window as any).close();
 }
 
 export async function togglePinForSelection(host: TabActionHost): Promise<void> {

@@ -75,7 +75,7 @@ export async function setupPopupSubscriptions(host: SubscriptionHost): Promise<v
 	browser.windows.onCreated.addListener(runUpdate);
 	browser.windows.onRemoved.addListener(runUpdate);
 
-	browser.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
+	browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		const request = message as ICommand;
 
 		debugError("command", request.command);
@@ -87,8 +87,9 @@ export async function setupPopupSubscriptions(host: SubscriptionHost): Promise<v
 					if (!windowComponent) continue;
 					windowComponent.checkSettings();
 				}
-				break;
+				return true;
 		}
+		return true;
 	});
 
 

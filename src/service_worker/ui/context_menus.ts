@@ -139,23 +139,23 @@ async function contextListeners(info: browser.Menus.OnClickData, tab?: browser.T
 			await browser.tabs.create({url: 'options.html'});
 			break;
 		case S.report:
-			await browser.tabs.create({url: 'https://github.com/stefanXO/Tab-Manager-Plus/issues'});
+			await browser.tabs.create({url: 'https://github.com/shabahmd/Tab-Manager-Plus-Shahab-Fork/issues'});
 			break;
 		case S.source:
-			await browser.tabs.create({url: 'https://github.com/stefanXO/Tab-Manager-Plus'});
+			await browser.tabs.create({url: 'https://github.com/shabahmd/Tab-Manager-Plus-Shahab-Fork'});
 			break;
 		case S.twitter:
 			await browser.tabs.create({url: 'https://www.twitter.com/mastef'});
 			break;
 		case S.send:
-			await browser.tabs.create({url: 'https://github.com/stefanXO/Tab-Manager-Plus/issues'});
+			await browser.tabs.create({url: 'https://github.com/shabahmd/Tab-Manager-Plus-Shahab-Fork/issues'});
 			await browser.tabs.create({url: 'mailto:markus+tmp@stefanxo.com'});
 			break;
 		case S.review:
 			if (navigator.userAgent.search("Firefox") > -1) {
-				await browser.tabs.create({url: 'https://addons.mozilla.org/en-US/firefox/addon/tab-manager-plus-for-firefox/'});
+				await browser.tabs.create({url: 'https://addons.mozilla.org/en-US/firefox/addon/tab-manager-pro-for-firefox/'});
 			} else {
-				await browser.tabs.create({url: 'https://chrome.google.com/webstore/detail/tab-manager-plus-for-chro/cnkdjjdmfiffagllbiiilooaoofcoeff'});
+				await browser.tabs.create({url: 'https://chrome.google.com/webstore/detail/tab-manager-pro-for-chro/cnkdjjdmfiffagllbiiilooaoofcoeff'});
 			}
 			break;
 

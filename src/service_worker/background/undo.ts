@@ -6,24 +6,24 @@ const UNDO_KEY = "recently_closed";
 const MAX_UNDO = 20;
 
 export async function saveClosedTab(tabId: number, tab: any): Promise<void> {
-	try {
-		const closed = (await getLocalStorage(UNDO_KEY, [])) as any[];
-		if (!Array.isArray(closed)) {
-			closed.length = 0;
-		}
-		closed.unshift({
-			tabId,
-			url: tab?.url || "",
-			title: tab?.title || "",
-			favIconUrl: tab?.favIconUrl || "",
-			windowId: tab?.windowId || 0,
-			timestamp: Date.now(),
-		});
-		if (closed.length > MAX_UNDO) closed.pop();
-		await setLocalStorage(UNDO_KEY, closed);
-	} catch (e) {
-		debugError("saveClosedTab failed", e);
-	}
+  try {
+    let closed = (await getLocalStorage(UNDO_KEY, [])) as any[];
+    if (!Array.isArray(closed)) {
+      closed = [] as any[];
+    }
+    closed.unshift({
+      tabId,
+      url: tab?.url || "",
+      title: tab?.title || "",
+      favIconUrl: tab?.favIconUrl || "",
+      windowId: tab?.windowId || 0,
+      timestamp: Date.now(),
+    });
+    if (closed.length > MAX_UNDO) closed.pop();
+    await setLocalStorage(UNDO_KEY, closed);
+  } catch (e) {
+    debugError("saveClosedTab failed", e);
+  }
 }
 
 export async function getRecentlyClosed(): Promise<any[]> {

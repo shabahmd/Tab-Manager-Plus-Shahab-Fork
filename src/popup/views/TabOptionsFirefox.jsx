@@ -8,7 +8,7 @@ export class TabOptions extends React.Component {
 		this.state = {};
 	}
 	logo() {
-		var logo = [<img src="images/browsers.svg" style={{ maxWidth: "3rem" }} />, <h2>Tab Manager Plus {__VERSION__}</h2>];
+		var logo = [<img src="images/browsers.svg" style={{ maxWidth: "3rem" }} />, <h2>Tab Manager Pro {__VERSION__}</h2>];
 
 		return (
 			<div className="logo-options">
@@ -46,7 +46,7 @@ export class TabOptions extends React.Component {
 				<h4>Popup size</h4>
 				<div className="option-description">
 					You can resize the popup here up to a maximum size of 800x600. This limitation is a browser limitation, and we cannot display a bigger popup due to
-					this. If you want to have a better overview, instead you can right click on the Tab Manager Plus icon, and `open in own tab`. This will open the Tab
+					this. If you want to have a better overview, instead you can right click on the Tab Manager Pro icon, and `open in own tab`. This will open the Tab
 					Manager in a new tab.
 				</div>
 				<div className="toggle-box half-size float-right">
@@ -310,7 +310,7 @@ export class TabOptions extends React.Component {
 						Change shortcut key
 					</a>
 					<div className="option-description">
-						If you want to disable or change the shortcut key with which to open Tab Manager Plus, you can do so in the add-ons settings. Click on the settings
+						If you want to disable or change the shortcut key with which to open Tab Manager Pro, you can do so in the add-ons settings. Click on the settings
 						cog on the next page, and then 'Manage Extension Shortcuts'.
 					</div>
 				</div>
@@ -347,7 +347,7 @@ export class TabOptions extends React.Component {
 		var licenses = [];
 		licenses.push(
 			<div className="license">
-				Tab Manager Plus is based on{" "}
+				Tab Manager Pro is based on{" "}
 				<a href="https://github.com/dsc/Tab-Manager" target="_blank" title="Tab-Manager">
 					dsc/Tab-Manager
 				</a>

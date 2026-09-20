@@ -176,7 +176,7 @@ export async function toggleHideState(host: PopupOptionsHost): Promise<void> {
 	if (navigator.userAgent.search("Firefox") > -1) {
 		_hide_windows = false;
 	} else {
-		var granted = await browser.permissions.request({ permissions: ["system.display"] }).catch(() => false);
+		var granted = await browser.permissions.request({ permissions: ["system.display"] } as any).catch(() => false);
 		if (granted) {
 			_hide_windows = !_hide_windows;
 		} else {

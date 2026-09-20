@@ -65,7 +65,7 @@ function showLoadError() {
 		const container = document.getElementById("TMP");
 		// React replaces the placeholder once mounted (TabManager renders #root).
 		if (container && !container.querySelector("#root")) {
-			container.textContent = "Tab Manager Plus could not load. Please close and reopen.";
+			container.textContent = "Tab Manager Pro could not load. Please close and reopen.";
 		}
 	} catch (e) {
 		// ignore - nothing left to do

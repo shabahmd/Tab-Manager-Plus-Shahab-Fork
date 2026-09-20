@@ -2,6 +2,7 @@ import * as browser from "webextension-polyfill";
 import * as S from "@strings";
 import {useTabManagerUI} from "@store/useTabManagerUI";
 import {getLocalStorage} from "@helpers/storage";
+import {ICommand} from "@types";
 
 export async function deleteTabsFromStore(): Promise<void> {
 	const store = useTabManagerUI.getState();

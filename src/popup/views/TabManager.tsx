@@ -97,11 +97,12 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 			containerColors: {},
 			tabNames: {},
 
-			tabCount: 0,
-			hiddenCount: 0,
-			searchLen: 0,
-			toasts: [],
-		};
+            tabCount: 0,
+            hiddenCount: 0,
+            searchLen: 0,
+            searchQuery: "",
+            toasts: [],
+        };
 
 		this.addWindow = this.addWindow.bind(this);
 		this.animationsText = this.animationsText.bind(this);
@@ -384,7 +385,7 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 									searchLen={this.state.searchLen}
 									filterTabs={this.state.filterTabs}
 									dupTabs={this.state.dupTabs}
-									onChangeLayout={this.changelayout}
+									onChangeLayout={() => this.changelayout(nextLayout(this.state.layout))}
 									onDeleteTabs={this.deleteTabs}
 									onDiscardTabs={this.discardTabs}
 									onPinTabs={this.pinTabs}
@@ -432,9 +433,9 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 	}
 	rateExtension() {
 		if (navigator.userAgent.search("Firefox") > -1) {
-			browser.tabs.create({ url: "https://addons.mozilla.org/en-US/firefox/addon/tab-manager-plus-for-firefox/" });
+			browser.tabs.create({ url: "https://addons.mozilla.org/en-US/firefox/addon/tab-manager-pro-for-firefox/" });
 		} else {
-			browser.tabs.create({ url: "https://chrome.google.com/webstore/detail/tab-manager-plus-for-chro/cnkdjjdmfiffagllbiiilooaoofcoeff" });
+			browser.tabs.create({ url: "https://chrome.google.com/webstore/detail/tab-manager-pro-for-chro/cnkdjjdmfiffagllbiiilooaoofcoeff" });
 		}
 		this.forceUpdate();
 	}

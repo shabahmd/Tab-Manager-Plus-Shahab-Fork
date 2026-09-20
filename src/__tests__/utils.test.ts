@@ -3,19 +3,19 @@ import {debounce, is_in_bounds, isInViewport, stringHashcode, maybePluralize, to
 
 describe("utils", () => {
 	describe("debounce", () => {
-		it("should delay function execution", (done) => {
+		it("should delay function execution", async () => {
 			let called = false;
 			const fn = debounce(() => { called = true; }, 50);
 			fn();
 			expect(called).toBe(false);
-			setTimeout(() => { expect(called).toBe(true); done(); }, 100);
+			await new Promise(resolve => setTimeout(resolve, 100));
+			expect(called).toBe(true);
 		});
-		it("should execute immediately when immediate=true", (done) => {
+		it("should execute immediately when immediate=true", () => {
 			let called = false;
 			const fn = debounce(() => { called = true; }, 50, true);
 			fn();
 			expect(called).toBe(true);
-			done();
 		});
 	});
 
