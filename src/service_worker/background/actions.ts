@@ -37,14 +37,14 @@ export async function handleMessages(message, sender, sendResponse) {
 			createTabInWindow(request.window_id);
 			break;
 		case S.focus_on_tab_and_window:
-			if (!!request.tab) {
+			if (request.tab) {
 				focusOnTabAndWindow(request.tab.id, request.tab.windowId);
 			} else {
 				focusOnTabAndWindow(request.saved_tab.tabId, request.saved_tab.windowId);
 			}
 			break;
 		case S.focus_on_tab_and_window_delayed:
-			if (!!request.tab) {
+			if (request.tab) {
 				focusOnTabAndWindowDelayed(request.tab.id, request.tab.windowId);
 			} else {
 				focusOnTabAndWindowDelayed(request.saved_tab.tabId, request.saved_tab.windowId);
@@ -87,7 +87,7 @@ export async function handleMessages(message, sender, sendResponse) {
 			clearTabCloseTimers(request.tab_ids);
 			break;
 		case S.mute_tab:
-			if (!!request.tabId) {
+			if (request.tabId) {
 				browser.tabs.get(request.tabId).then((tab) => {
 					if (tab) {
 						browser.tabs.update(request.tabId, {muted: !tab.mutedInfo?.muted}).catch(() => {});
@@ -115,7 +115,7 @@ export function onAlarm(alarm: browser.Alarms.Alarm) {
 export function handleCommands(command : string) {
 	if (command === S.switch_to_previous_active_tab) {
 		if (!!globalTabsActive && globalTabsActive.length > 1) {
-			var _tab = globalTabsActive[globalTabsActive.length - 2];
+			const _tab = globalTabsActive[globalTabsActive.length - 2];
 			focusOnTabAndWindow(_tab.tabId, _tab.windowId);
 		}
 	}
@@ -124,7 +124,7 @@ export function handleCommands(command : string) {
 export function trackLastTab(tab : browser.Tabs.OnActivatedActiveInfoType) {
 	if (!!tab && !!tab.tabId) {
 		if (!!globalTabsActive && globalTabsActive.length > 0) {
-			var lastActive = globalTabsActive[globalTabsActive.length - 1];
+			const lastActive = globalTabsActive[globalTabsActive.length - 1];
 			if (!!lastActive && lastActive.tabId === tab.tabId && lastActive.windowId === tab.windowId) {
 				return;
 			}
@@ -142,8 +142,8 @@ export function trackLastTab(tab : browser.Tabs.OnActivatedActiveInfoType) {
 }
 
 export async function setWindowColor(windowId : number, color : string) {
-	var colors : Map<number, string> = await getLocalStorageMap<number, string>(S.windowColors);
-	if (!!color) {
+	const colors : Map<number, string> = await getLocalStorageMap<number, string>(S.windowColors);
+	if (color) {
 		colors.set(windowId, color);
 	} else {
 		colors.delete(windowId);
@@ -157,8 +157,8 @@ export async function setWindowColor(windowId : number, color : string) {
 }
 
 export async function setWindowName(windowId: number, name : string) {
-	var names : Map<number, string> = await getLocalStorageMap<number, string>(S.windowNames);
-	if (!!name) {
+	const names : Map<number, string> = await getLocalStorageMap<number, string>(S.windowNames);
+	if (name) {
 		names.set(windowId, name);
 	} else {
 		names.delete(windowId);

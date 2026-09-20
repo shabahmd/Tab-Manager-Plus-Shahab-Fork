@@ -40,7 +40,7 @@ addListenerSafe(browser.alarms && browser.alarms.onAlarm, _a.onAlarm, "alarms.on
 
 (async function () {
 	try {
-		let windows = await browser.windows.getAll({ populate: true });
+		const windows = await browser.windows.getAll({ populate: true });
 	await setLocalStorage("windowAge", []);
 	if (!!windows && windows.length > 0) {
 		windows.sort(function (a, b) {
@@ -49,7 +49,7 @@ addListenerSafe(browser.alarms && browser.alarms.onAlarm, _a.onAlarm, "alarms.on
 			return 0;
 		});
 		for (let i = 0; i < windows.length; i++) {
-			if (!!windows[i].id) await _w.windowActive(windows[i].id);
+			if (windows[i].id) await _w.windowActive(windows[i].id);
 		}
 	}
 	} catch (e) {

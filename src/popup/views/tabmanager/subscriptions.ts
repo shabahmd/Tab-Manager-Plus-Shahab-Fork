@@ -29,8 +29,9 @@ export async function setupPopupSubscriptions(host: SubscriptionHost): Promise<v
 	await host.loadStorage();
 
 	if (navigator.userAgent.search("Firefox") > -1) {
+		// Firefox does not support the optional system.display permission.
 	} else {
-		let result = await browser.permissions.contains({permissions: ["system.display"]});
+		const result = await browser.permissions.contains({permissions: ["system.display"]});
 		if (!result) {
 			setLocalStorage("hideWindows", false);
 			host.setState({
@@ -39,18 +40,18 @@ export async function setupPopupSubscriptions(host: SubscriptionHost): Promise<v
 		}
 	}
 
-	let _this = host;
+	const _this = host;
 
 	let runUpdate = debounce(host.update, 250);
 	runUpdate = runUpdate.bind(host);
 
-	var runTabUpdate = async (tabid, changeinfo, tab) => {
+	const runTabUpdate = async (tabid, changeinfo, tab) => {
 		host.dirtyWindow(tab.windowId);
 
 		const windowComponent = _this.getWindowRef(tab.windowId) as any;
-		if (!!windowComponent) {
-			if (!!windowComponent.refs["tab" + tabid]) {
-				var _tabref = windowComponent.refs["tab" + tabid] as any;
+		if (windowComponent) {
+			if (windowComponent.refs["tab" + tabid]) {
+				const _tabref = windowComponent.refs["tab" + tabid] as any;
 				await _tabref.checkSettings();
 			}
 		}
@@ -80,14 +81,15 @@ export async function setupPopupSubscriptions(host: SubscriptionHost): Promise<v
 
 		debugError("command", request.command);
 		switch (request.command) {
-			case S.refresh_windows:
-				let window_ids : number[] = request.window_ids;
-				for (let window_id of window_ids) {
+			case S.refresh_windows: {
+				const window_ids : number[] = request.window_ids;
+				for (const window_id of window_ids) {
 					const windowComponent = _this.getWindowRef(window_id) as any;
 					if (!windowComponent) continue;
 					windowComponent.checkSettings();
 				}
 				return true;
+			}
 		}
 		return true;
 	});

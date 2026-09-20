@@ -49,6 +49,8 @@ async function getBackupInterval(): Promise<number> {
 		if (typeof val["backupInterval"] === "number" && val["backupInterval"] > 0) {
 			return val["backupInterval"];
 		}
-	} catch {}
+	} catch {
+		// Storage unavailable; fall back to the default interval.
+	}
 	return DEFAULT_INTERVAL_MINUTES;
 }

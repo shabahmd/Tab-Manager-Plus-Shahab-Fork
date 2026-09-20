@@ -32,7 +32,7 @@ export async function openAsOwnTab() {
 		previousTab = globalTabsActive[globalTabsActive.length - 2];
 	}
 
-	for (var i = 0; i < tabs.length; i++) {
+	for (let i = 0; i < tabs.length; i++) {
 		const tab = tabs[i];
 		if (tab.url.indexOf("popup.html") > -1 && tab.url.indexOf(popup_page) > -1) {
 			if (currentTab && currentTab.tabId && tab.id === currentTab.tabId && previousTab && previousTab.tabId) {

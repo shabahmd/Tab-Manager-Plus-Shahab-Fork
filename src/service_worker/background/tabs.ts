@@ -71,7 +71,7 @@ export async function moveTabsToWindow(windowId, tabs) {
 			// Tabs cannot be mixed between incognito and normal windows
 			if (!!target && !!target.incognito !== !!tab.incognito) continue;
 			await browser.tabs.move(tab.id, {windowId: windowId, index: -1});
-			if (!!tab.pinned) {
+			if (tab.pinned) {
 				await browser.tabs.update(tab.id, {pinned: true}).catch(() => {});
 			}
 		} catch (e) {
@@ -134,7 +134,7 @@ export async function updateTabCount() {
 	if (!badge) run = false;
 
 	if (run) {
-		let result = await browser.tabs.query({});
+		const result = await browser.tabs.query({});
 		let count = 0;
 		if (!!result && !!result.length) {
 			count = result.length;
@@ -143,7 +143,7 @@ export async function updateTabCount() {
 		await browser.action.setBadgeBackgroundColor({color: "purple"});
 		const _to_remove : number[] = [];
 
-		if (!!globalTabsActive) {
+		if (globalTabsActive) {
 			for (let i = 0; i < globalTabsActive.length; i++) {
 				const t = globalTabsActive[i];
 				let found = false;
@@ -157,9 +157,9 @@ export async function updateTabCount() {
 		}
 
 		while (_to_remove.length > 0) {
-			let index = _to_remove.pop();
+			const index = _to_remove.pop();
 			if (!!globalTabsActive && globalTabsActive.length > 0) {
-				if (!!globalTabsActive[index]) globalTabsActive.splice(index, 1);
+				if (globalTabsActive[index]) globalTabsActive.splice(index, 1);
 			}
 		}
 

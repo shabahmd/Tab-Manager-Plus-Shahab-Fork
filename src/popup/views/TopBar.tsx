@@ -9,22 +9,19 @@ export interface TopBarProps {
 	topText: string;
 	bottomText: string;
 	tip: string;
-	onDonate: () => void;
 	onRate: () => void;
 	onToggleOptions: () => void;
 	onHoverIcon: (e: React.MouseEvent<HTMLDivElement> | string) => void;
 }
 
-// Top header bar of the popup (donate/rate/options + status texts).
+// Top header bar of the popup (rate/options + status texts).
 // Extracted from TabManager.render(). Note: the legacy topbox/topboxurl
 // refs were write-only and are intentionally not carried over.
 export class TopBar extends React.Component<TopBarProps> {
 	render() {
 		return (
 			<div className="window top" ref="tophover">
-				<div className="icon windowaction donate" title="Donate a Coffee" onClick={this.props.onDonate} onMouseEnter={this.props.onHoverIcon} />
-				<div
-					className="icon windowaction rate"
+				<div className="icon windowaction rate"
 					title="Rate Tab Manager Pro"
 					onClick={this.props.onRate}
 					onMouseEnter={this.props.onHoverIcon}

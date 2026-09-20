@@ -44,9 +44,7 @@ export function matchTabSearch(tabSearchTerm : string, rawQuery : string, search
 		let andMatch = true;
 		for (let searchAND of searchTerms) {
 			searchAND = searchAND.trim().toLowerCase();
-			if (tabSearchTerm.indexOf(searchAND) >= 0) {
-
-			} else {
+			if (tabSearchTerm.indexOf(searchAND) < 0) {
 				andMatch = false;
 				break;
 			}

@@ -5,7 +5,7 @@ export interface ITabManagerState {
 	tabCount: number,
 	hiddenCount: number,
 
- 	animations: boolean,
+	animations: boolean,
 	badge: boolean,
 	compact: boolean,
 	dark: boolean,
@@ -26,16 +26,16 @@ export interface ITabManagerState {
 
 	windows: browser.Windows.Window[],
 	sessions: ISavedSession[],
- 	selection: Set<number>,
+	selection: Set<number>,
 	hiddenTabs: Set<number>,
 	tabsbyid: Map<number, browser.Tabs.Tab>,
 	windowsbyid: Map<number, browser.Windows.Window>,
 
- 	containerFilter: string,
+	containerFilter: string,
 	containerColors: Record<string, string>,
 	tabNames: Record<string, string>,
 
- 	lastSelect: number,
+	lastSelect: number,
 	searchLen: number,
 	searchQuery: string,
 	height: number,

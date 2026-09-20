@@ -18,18 +18,18 @@ export function sortWindows(windows : browser.Windows.Window[], sort_windows : n
 	windows.sort(function(a, b) {
 		if (a.state === "minimized" && b.state !== "minimized") return 1;
 		if (b.state === "minimized" && a.state !== "minimized") return -1;
-		if (!!disableResorting) {
+		if (disableResorting) {
 			if (a.id < b.id) return -1;
 			if (a.id > b.id) return 1;
 			return 0;
 		}
-		if (!!orderByTabCount) {
+		if (orderByTabCount) {
 			const aTabs = (a.tabs || []).length;
 			const bTabs = (b.tabs || []).length;
 			if (aTabs !== bTabs) return bTabs - aTabs;
 		}
-		var aSort = sort_windows.indexOf(a.id);
-		var bSort = sort_windows.indexOf(b.id);
+		const aSort = sort_windows.indexOf(a.id);
+		const bSort = sort_windows.indexOf(b.id);
 		if (aSort < bSort) return -1;
 		if (aSort > bSort) return 1;
 		return 0;

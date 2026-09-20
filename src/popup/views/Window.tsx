@@ -59,8 +59,8 @@ export class Window extends React.Component<IWindow, IWindowState> {
 
 
 	async checkSettings() {
-		let colors = await getLocalStorageMap<number, string>(S.windowColors);
-		let color = colors.get(this.props.window.id) || "default";
+		const colors = await getLocalStorageMap<number, string>(S.windowColors);
+		const color = colors.get(this.props.window.id) || "default";
 
 		this.setState({
 			color: color
@@ -75,14 +75,14 @@ export class Window extends React.Component<IWindow, IWindowState> {
 
 	async update() {
 		let name : string;
-		if (!!this.props.window.title) {
+		if (this.props.window.title) {
 			name = this.props.window.title;
 		} else {
-			let names : Map<number, string> = await getLocalStorageMap<number, string>(S.windowNames);
+			const names : Map<number, string> = await getLocalStorageMap<number, string>(S.windowNames);
 			name = names.get(this.props.window.id) || "";
 		}
 
-		if (!!name) {
+		if (name) {
 			if (name !== this.state.name) {
 				this.setState({
 					name: name
@@ -91,9 +91,9 @@ export class Window extends React.Component<IWindow, IWindowState> {
 			return;
 		}
 
-		let _window_titles = this.state.windowTitles;
+		const _window_titles = this.state.windowTitles;
 		let _tabs = this.state.tabs;
-		let tabs = await browser.tabs.query({ windowId: this.props.window.id });
+		const tabs = await browser.tabs.query({ windowId: this.props.window.id });
 		if (tabs.length == 0) return;
 
 		if (_window_titles.length === 0 || this.state.tabs !== tabs.length + this.props.window.id * 99) {
@@ -105,9 +105,9 @@ export class Window extends React.Component<IWindow, IWindowState> {
 				if (!!_tab && (!!_tab.url || !!_tab.pendingUrl)) {
 					let url : URL;
 					try {
-						if (!!_tab.pendingUrl) {
+						if (_tab.pendingUrl) {
 							url = new URL(_tab.pendingUrl);
-						} else if (!!_tab.url) {
+						} else if (_tab.url) {
 							url = new URL(_tab.url);
 						} else {
 							continue;
@@ -119,7 +119,7 @@ export class Window extends React.Component<IWindow, IWindowState> {
 					// force refresh once we've loaded tabs
 					if (_tab.status == "loading") _tabs--;
 
-					let protocol = url.protocol || "";
+					const protocol = url.protocol || "";
 					let hostname = url.hostname || "";
 					if (protocol.indexOf("view-source") > -1 && !!url.pathname) {
 						url = new URL(url.pathname);
@@ -134,16 +134,16 @@ export class Window extends React.Component<IWindow, IWindowState> {
 						if (!hostname) hostname = "";
 						hostname = hostname.replace("www.", "");
 						if (!isIpAddress(hostname)) {
-							let regex_var = new RegExp(/(\.[^\.]{0,2})(\.[^\.]{0,2})(\.*$)|(\.[^\.]*)(\.*$)/);
+							const regex_var = new RegExp(/(\.[^.]{0,2})(\.[^.]{0,2})(\.*$)|(\.[^.]*)(\.*$)/);
 							hostname = hostname
 								.replace(regex_var, "")
 								.split(".")
 								.pop();
 						} else {
-							if (!!_tab.title) {
+							if (_tab.title) {
 								hostname = _tab.title;
 							} else {
-								let ip = hostname.split(".");
+								const ip = hostname.split(".");
 								hostname = ip[0] + "." + ip[1] + ".*.*";
 							}
 						}
@@ -155,9 +155,9 @@ export class Window extends React.Component<IWindow, IWindowState> {
 						const separators = /\s[—|•-]\s/; // Define separators here
 
 						do {
-							let titles = title.split(separators);
-							let first = titles[0];
-							let last = titles[titles.length - 1];
+							const titles = title.split(separators);
+							const first = titles[0];
+							const last = titles[titles.length - 1];
 							if (slugify(first) == slugify(hostname) || slugify_no_space(first) == slugify_no_space(hostname) || slugify_no_space(first).startsWith(slugify_no_space(hostname).substring(0, 3)) || slugify_no_space(hostname).startsWith(slugify_no_space(first).substring(0, 3))) {
 								title = first;
 							} else if (slugify(last) == slugify(hostname) || slugify_no_space(last) == slugify_no_space(hostname) || slugify_no_space(last).startsWith(slugify_no_space(hostname).substring(0, 3)) || slugify_no_space(hostname).startsWith(slugify_no_space(last).substring(0, 3))) {
@@ -199,20 +199,20 @@ export class Window extends React.Component<IWindow, IWindowState> {
 	}
 
 	render() {
-		let _this = this;
+		const _this = this;
 
-		let color = this.state.color || "default";
+		const color = this.state.color || "default";
 
 		let hideWindow = true;
 		let titleAdded = false;
 		let tabsperrow = this.props.layout.indexOf("blocks") > -1 ? Math.ceil(Math.sqrt(this.props.tabs.length + 2)) : this.props.layout === "vertical" ? 1 : 15;
-		let tabs = [...this.props.tabs].sort((a, b) => {
+		const tabs = [...this.props.tabs].sort((a, b) => {
 			if (a.pinned && !b.pinned) return -1;
 			if (!a.pinned && b.pinned) return 1;
 			return 0;
 		}).map(function(tab) {
-			let isHidden : boolean = (_this.props.hiddenTabs.has(tab.id) && _this.props.filterTabs) || _this.isHiddenByContainer(tab);
-			let isSelected : boolean = _this.props.selection.has(tab.id);
+			const isHidden : boolean = (_this.props.hiddenTabs.has(tab.id) && _this.props.filterTabs) || _this.isHiddenByContainer(tab);
+			const isSelected : boolean = _this.props.selection.has(tab.id);
 			if (!isHidden) hideWindow = false;
 			return (
 				<Tab
@@ -242,7 +242,7 @@ export class Window extends React.Component<IWindow, IWindowState> {
 			);
 		});
 		if (!hideWindow) {
-			if (!!this.props.tabactions) {
+			if (this.props.tabactions) {
 				tabs.push(
 					<div key={"windownl_" + _this.props.window.id} className="newliner" />,
 					<div key={"windowactions_" + this.props.window.id} className="window-actions">
@@ -493,7 +493,7 @@ export class Window extends React.Component<IWindow, IWindowState> {
 						onMouseEnter={this.props.hoverIcon}
 					>
 						{this.props.window.incognito ? "🕵" : ""}
-						{!!this.state.name ? this.state.name : this.state.auto_name}
+						{this.state.name ? this.state.name : this.state.auto_name}
 					</h3>
 				);
 			}
@@ -501,14 +501,14 @@ export class Window extends React.Component<IWindow, IWindowState> {
 			if (tabsperrow < 5) {
 				tabsperrow = 5;
 			}
-			let children = [];
-			if (!!titleAdded) {
+			const children = [];
+			if (titleAdded) {
 				children.push(tabs.shift());
 			}
 			let z = -1;
 			for (let j = 0; j < tabs.length; j++) {
-				let tab = tabs[j].props.tab;
-				let isHidden = (!!tab && !!tab.id && this.props.hiddenTabs.has(tab.id) && this.props.filterTabs) || (!!tab && this.isHiddenByContainer(tab));
+				const tab = tabs[j].props.tab;
+				const isHidden = (!!tab && !!tab.id && this.props.hiddenTabs.has(tab.id) && this.props.filterTabs) || (!!tab && this.isHiddenByContainer(tab));
 				if(isHidden) continue;
 				z++;
 				children.push(tabs[j]);
@@ -584,15 +584,15 @@ export class Window extends React.Component<IWindow, IWindowState> {
 		let closestRef = null;
 
 		for (let i = 0; i < this.props.tabs.length; i++) {
-			let tab = this.props.tabs[i];
-			let tabRef = (this.refs["tab" + tab.id] as Tab)?.state?.tabRef?.current;
+			const tab = this.props.tabs[i];
+			const tabRef = (this.refs["tab" + tab.id] as Tab)?.state?.tabRef?.current;
 			if (!tabRef) continue;
-			let tabRect = tabRef.getBoundingClientRect();
-			let x = e.nativeEvent.clientX;
-			let y = e.nativeEvent.clientY;
-			let dx = tabRect.x - x;
-			let dy = tabRect.y - y;
-			let d = Math.sqrt(dx * dx + dy * dy);
+			const tabRect = tabRef.getBoundingClientRect();
+			const x = e.nativeEvent.clientX;
+			const y = e.nativeEvent.clientY;
+			const dx = tabRect.x - x;
+			const dy = tabRect.y - y;
+			const d = Math.sqrt(dx * dx + dy * dy);
 			if (d < distance) {
 				distance = d;
 				closestTab = tab.id;
@@ -604,7 +604,7 @@ export class Window extends React.Component<IWindow, IWindowState> {
 
 		if (closestTab != null) {
 			let before : boolean;
-			let boundingRect = closestRef.getBoundingClientRect();
+			const boundingRect = closestRef.getBoundingClientRect();
 			if (this.props.layout === "vertical") {
 				before = e.nativeEvent.clientY < boundingRect.top;
 			} else {
@@ -633,7 +633,7 @@ export class Window extends React.Component<IWindow, IWindowState> {
 	async windowClick(e) {
 		this.stopProp(e);
 
-		let windowId = this.props.window.id;
+		const windowId = this.props.window.id;
 
 		if (navigator.userAgent.search("Firefox") > -1) {
 			browser.runtime.sendMessage<ICommand>({command: S.focus_on_window_delayed, window_id: windowId});
@@ -642,11 +642,11 @@ export class Window extends React.Component<IWindow, IWindowState> {
 		}
 
 		this.props.parentUpdate();
-		if (!!window.inPopup) window.close();
+		if (window.inPopup) window.close();
 		return false;
 	}
 	selectToFromTab(tabId : number) {
-		if (!!tabId) this.props.selectTo(tabId, this.props.tabs);
+		if (tabId) this.props.selectTo(tabId, this.props.tabs);
 	}
 	async close(e) {
 		this.stopProp(e);
@@ -654,7 +654,7 @@ export class Window extends React.Component<IWindow, IWindowState> {
 	}
 	uuidv4() {
 		return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-			let r = (Math.random() * 16) | 0,
+			const r = (Math.random() * 16) | 0,
 				v = c === "x" ? r : (r & 0x3) | 0x8;
 			return v.toString(16);
 		});
@@ -663,12 +663,12 @@ export class Window extends React.Component<IWindow, IWindowState> {
 		this.stopProp(e);
 
 		debugLog("session name", this.state.name);
-		let sessionName = this.state.name || this.topEntries(this.state.windowTitles).join("");
-		let sessionColor = this.state.color || "default";
+		const sessionName = this.state.name || this.topEntries(this.state.windowTitles).join("");
+		const sessionColor = this.state.color || "default";
 
 		debugLog("session name", sessionName);
 
-		let session : ISavedSession = {
+		const session : ISavedSession = {
 			tabs: [],
 			windowsInfo: null,
 			name: sessionName,
@@ -680,18 +680,18 @@ export class Window extends React.Component<IWindow, IWindowState> {
 			id: this.uuidv4()
 		};
 
-		let queryInfo : browser.Tabs.QueryQueryInfoType = {
+		const queryInfo : browser.Tabs.QueryQueryInfoType = {
 			windowId: this.props.window.id
 		};
 		//queryInfo.currentWindow = true;
 
 		debugLog(queryInfo);
 
-		let tabs : browser.Tabs.Tab[] = await browser.tabs.query(queryInfo);
+		const tabs : browser.Tabs.Tab[] = await browser.tabs.query(queryInfo);
 		debugLog(tabs);
-		for (let tabkey in tabs) {
+		for (const tabkey in tabs) {
 			if (navigator.userAgent.search("Firefox") > -1) {
-				let newTab = tabs[tabkey];
+				const newTab = tabs[tabkey];
 				if (!!newTab.url && newTab.url.search("about:") > -1) {
 					continue;
 				}
@@ -703,10 +703,10 @@ export class Window extends React.Component<IWindow, IWindowState> {
 
 		debugLog(session);
 
-		let sessions = await getLocalStorage('sessions', {});
+		const sessions = await getLocalStorage('sessions', {});
 		sessions[session.id] = session;
 
-		let value = await setLocalStorage('sessions', sessions).catch(function(err) {
+		const value = await setLocalStorage('sessions', sessions).catch(function(err) {
 			debugLog(err);
 			console.error(err.message);
 		});
@@ -747,7 +747,7 @@ export class Window extends React.Component<IWindow, IWindowState> {
 		this.setState(a);
 		this.props.toggleColors(!this.state.colorActive, this.props.window.id);
 
-		let color = a.color || "default";
+		const color = a.color || "default";
 
 		browser.runtime.sendMessage<ICommand>({
 			command: S.set_window_color,
@@ -781,7 +781,7 @@ export class Window extends React.Component<IWindow, IWindowState> {
 			name: name
 		});
 		if (navigator.userAgent.search("Firefox") > -1) {
-			if(!!name) {
+			if(name) {
 				await browser.windows.update(this.props.window.id, {
 					titlePreface: name + " - "
 				});
@@ -793,17 +793,16 @@ export class Window extends React.Component<IWindow, IWindowState> {
 		}
 	}
 	topEntries(arr : string[]) : string[] {
-		let cnts = arr.reduce(function(obj, val) {
+		const cnts = arr.reduce(function(obj, val) {
 			obj[val] = (obj[val] || 0) + 1;
 			return obj;
 		}, {});
-		let sorted = Object.keys(cnts).sort(function(a, b) {
+		const sorted = Object.keys(cnts).sort(function(a, b) {
 			return cnts[b] - cnts[a];
 		});
 
 		let more = 0;
-		if (sorted.length === 3) {
-		} else {
+		if (sorted.length !== 3) {
 			while (sorted.length > 2) {
 				sorted.pop();
 				more++;

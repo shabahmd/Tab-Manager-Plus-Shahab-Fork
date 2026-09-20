@@ -12,8 +12,8 @@ export class Session extends React.Component<ISession, ISessionState> {
 	constructor(props : ISession) {
 		super(props);
 
-		let name = this.props.session.name;
-		let color = this.props.session.color || "default";
+		const name = this.props.session.name;
+		const color = this.props.session.color || "default";
 
 		this.state = {
 			name: name,
@@ -29,14 +29,14 @@ export class Session extends React.Component<ISession, ISessionState> {
 
 	}
 	render() {
-		let _this = this;
+		const _this = this;
 		let hideWindow = true;
 		let titleAdded = false;
 		let tabsperrow = this.props.layout.indexOf("blocks") > -1 ? Math.ceil(Math.sqrt(this.props.tabs.length + 2)) : this.props.layout === "vertical" ? 1 : 15;
-		let tabs = this.props.tabs.map(function(tab) {
-			let tabId = tab.id * tab.id * tab.id * 100;
-			let isHidden = _this.props.hiddenTabs.has(tabId) && _this.props.filterTabs;
-			let isSelected = _this.props.selection.has(tabId);
+		const tabs = this.props.tabs.map(function(tab) {
+			const tabId = tab.id * tab.id * tab.id * 100;
+			const isHidden = _this.props.hiddenTabs.has(tabId) && _this.props.filterTabs;
+			const isSelected = _this.props.selection.has(tabId);
 			tab.id = tab.index;
 			if (!isHidden) hideWindow = false;
 			return (
@@ -59,7 +59,7 @@ export class Session extends React.Component<ISession, ISessionState> {
 			);
 		});
 		if (!hideWindow) {
-			if (!!this.props.tabactions) {
+			if (this.props.tabactions) {
 				tabs.push(
 					<div key={"sessionnl_" + _this.props.session.id} className="newliner" />,
 					<div key={"sessionwa_" + _this.props.session.id} className="window-actions">
@@ -92,17 +92,17 @@ export class Session extends React.Component<ISession, ISessionState> {
 			if (tabsperrow < 3) {
 				tabsperrow = 3;
 			}
-			var children = [];
-			if (!!titleAdded) {
+			const children = [];
+			if (titleAdded) {
 				children.push(tabs.shift());
 			}
-			for (var j = 0; j < tabs.length; j++) {
+			for (let j = 0; j < tabs.length; j++) {
 				children.push(tabs[j]);
 				if ((j + 1) % tabsperrow === 0 && j && this.props.layout.indexOf("blocks") > -1) {
 					children.push(<div key={"sessionnl_" + _this.props.session.id + "_" + j} className="newliner" />);
 				}
 			}
-			var focused = false;
+			let focused = false;
 			if (this.props.session.windowsInfo.focused || this.props.lastOpenWindow === this.props.session.windowsInfo.id) {
 				focused = true;
 			}
@@ -162,7 +162,7 @@ export class Session extends React.Component<ISession, ISessionState> {
 
 		this.props.parentUpdate();
 
-		if (!!window.inPopup) {
+		if (window.inPopup) {
 			window.close();
 		}else{
 			setTimeout(function() {
@@ -173,10 +173,10 @@ export class Session extends React.Component<ISession, ISessionState> {
 	async close(e) {
 		e.stopPropagation();
 
-		var sessions = await getLocalStorage('sessions', {});
+		const sessions = await getLocalStorage('sessions', {});
 		delete sessions[this.props.session.id];
 
-		var value = await setLocalStorage('sessions', sessions).catch(function (err) {
+		const value = await setLocalStorage('sessions', sessions).catch(function (err) {
 			debugLog(err);
 			console.error(err.message);
 		});

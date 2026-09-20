@@ -24,6 +24,10 @@ export interface PopupOptionValues {
 	containerColors: Record<string, string>;
 }
 
+export function isSystemDark() : boolean {
+	return !!window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+}
+
 export function applyPopupOptionDefaults(storage : Record<string, any>) : PopupOptionValues {
 	if (!storage["layout"]) storage["layout"] = "blocks";
 	if (typeof storage["tabLimit"] === "undefined") storage["tabLimit"] = 0;
@@ -37,7 +41,16 @@ export function applyPopupOptionDefaults(storage : Record<string, any>) : PopupO
 
 	if (typeof storage["openInOwnTab"] === "undefined") storage["openInOwnTab"] = false;
 	if (typeof storage["compact"] === "undefined") storage["compact"] = false;
-	if (typeof storage["dark"] === "undefined") storage["dark"] = false;
+	// When no stored preference exists, derive the theme from the OS without
+	// writing a "dark" key into the storage bag, so the theme keeps tracking
+	// system changes instead of being pinned on first launch.
+	let darkValue : boolean;
+	if (typeof storage["dark"] === "undefined") {
+		storage["_darkNeedsSystemTheme"] = true;
+		darkValue = isSystemDark();
+	} else {
+		darkValue = storage["dark"] as boolean;
+	}
 	if (typeof storage["sessionsFeature"] === "undefined") storage["sessionsFeature"] = false;
 	if (typeof storage["hideWindows"] === "undefined") storage["hideWindows"] = false;
 	if (typeof storage["filter-tabs"] === "undefined") storage["filter-tabs"] = false;
@@ -55,7 +68,7 @@ export function applyPopupOptionDefaults(storage : Record<string, any>) : PopupO
 		animations: storage["animations"] as boolean,
 		windowTitles: storage["windowTitles"] as boolean,
 		compact: storage["compact"] as boolean,
-		dark: storage["dark"] as boolean,
+		dark: darkValue,
 		tabactions: storage["tabactions"] as boolean,
 		badge: storage["badge"] as boolean,
 		sessionsFeature: storage["sessionsFeature"] as boolean,

@@ -11,7 +11,7 @@ export interface ITabOptions {
 	tabHeight: number,
 	tabLimit: number,
 	tabWidth: number,
- 	tabactions: boolean,
+	tabactions: boolean,
 	windowTitles: boolean,
 	enterToFocus: boolean,
 	orderByTabCount: boolean,
@@ -43,7 +43,7 @@ export interface ITabOptions {
 	toggleOpenInOwnTab: () => void,
 	hideText: () => void,
 	toggleHide: () => void,
- 	tabActionsText: () => void,
+	tabActionsText: () => void,
 	toggleTabActions: () => void
 	enterToFocusText: () => void,
 	toggleEnterToFocus: () => void,

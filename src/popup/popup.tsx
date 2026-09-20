@@ -2,11 +2,13 @@
 
 import {getLocalStorage} from "@helpers/storage";
 import {debugLog} from "@helpers/debug";
+import {isSystemDark} from "./views/tabmanager/optionDefaults";
 import {TabManager} from '@views';
 import {ErrorBoundary} from "@ErrorBoundary";
 import * as React from 'react';
 import {createRoot} from "react-dom/client";
 import * as LegacyReactDOM from "react-dom";
+import * as browser from 'webextension-polyfill';
 
 declare global {
 	interface Window {
@@ -73,7 +75,7 @@ function showLoadError() {
 }
 
 async function loadApp() {
-	if (!!window.loaded) return;
+	if (window.loaded) return;
 	if (retryCount >= MAX_RETRIES) {
 		showLoadError();
 		return;
@@ -96,9 +98,9 @@ async function loadApp() {
 				document.body.style.height = height + "px";
 			}
 
-			var root = document.getElementById("root");
+			const root = document.getElementById("root");
 			if (root != null) {
-				var _height = parseInt(document.body.style.height.split("px")[0]) || 0;
+				let _height = parseInt(document.body.style.height.split("px")[0]) || 0;
 				if (_height < 300) {
 					_height = 400;
 					document.body.style.minHeight = _height + "px";
@@ -125,7 +127,18 @@ async function loadApp() {
 			document.body.style.width = "100%";
 		}
 
-		if (!!window.loaded) return;
+		try {
+			const storage = await browser.storage.local.get("dark");
+			const isDark = storage.dark !== undefined ? storage.dark : isSystemDark();
+			if (isDark) {
+				document.body.classList.add("dark");
+				document.documentElement.classList.add("dark");
+			}
+		} catch (e) {
+			debugLog("dark mode init failed:", e);
+		}
+
+		if (window.loaded) return;
 		try {
 			mountApp();
 		} catch (e) {
@@ -133,7 +146,7 @@ async function loadApp() {
 			return;
 		}
 		window.loaded = true;
-}
+	}
 
 window.addEventListener("contextmenu", function (e) {
 	e.preventDefault();

@@ -10,10 +10,10 @@ export interface ITab {
 	hidden: boolean,
 	id: string,
 
- 	searchActive: boolean,
+	searchActive: boolean,
 	searchQuery?: string,
 	layout: string,
- 	draggable: boolean,
+	draggable: boolean,
 	containerColors?: Record<string, string>,
 	tabNames?: Record<string, string>,
 

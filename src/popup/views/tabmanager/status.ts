@@ -19,7 +19,7 @@ export function hoverTabStatus(host: StatusHost, tab : browser.Tabs.Tab): void {
 	// host.state.closeTimeout = setTimeout(function () {
 	//  window.close();
 	// }, 100000);
-	var _reset_timeout = host.state.resetTimeout;
+	let _reset_timeout = host.state.resetTimeout;
 	clearTimeout(_reset_timeout);
 	_reset_timeout = setTimeout(
 		function() {
@@ -33,7 +33,7 @@ export function hoverTabStatus(host: StatusHost, tab : browser.Tabs.Tab): void {
 }
 
 export function hoverIconStatus(host: StatusHost, e : React.MouseEvent<HTMLDivElement> | string): void {
-	var text = "";
+	let text = "";
 	if (typeof (e) === "string") {
 		text = e;
 	} else {
@@ -47,9 +47,9 @@ export function hoverIconStatus(host: StatusHost, e : React.MouseEvent<HTMLDivEl
 		}
 	}
 
-	var bottom = " ";
+	let bottom = " ";
 	if (text.indexOf("\n") > -1) {
-		var a = text.split("\n");
+		const a = text.split("\n");
 		text = a[0];
 		bottom = a[1];
 	}
@@ -60,7 +60,7 @@ export function hoverIconStatus(host: StatusHost, e : React.MouseEvent<HTMLDivEl
 }
 
 export function getRandomTip(): string {
-	var tips = [
+	const tips = [
 		"You can right click on a tab to select it",
 		"Press enter to move all selected tabs to a new window",
 		"Middle click to close a tab",

@@ -20,27 +20,27 @@ export async function setupWindowListeners() {
 }
 
 export async function createWindowWithTabs(tabs : browser.Tabs.Tab[], isIncognito : boolean = false) {
-	var pinnedIndex = 0;
-	var firstTab = tabs.shift();
-	var t = [];
+	let pinnedIndex = 0;
+	const firstTab = tabs.shift();
+	const t = [];
 	for (const _tab of tabs) {
 		t.push(_tab.id);
 	}
 
-	var firstPinned = firstTab.pinned;
-	var w = await browser.windows.create({tabId: firstTab.id, incognito: !!isIncognito});
+	const firstPinned = firstTab.pinned;
+	const w = await browser.windows.create({tabId: firstTab.id, incognito: !!isIncognito});
 	if (firstPinned) {
 		await browser.tabs.update(w.tabs[0].id, {pinned: firstPinned});
 		pinnedIndex++;
 	}
 
 	if (t.length > 0) {
-		var i = 0;
-		for (let oldTabId of t) {
+		let i = 0;
+		for (const oldTabId of t) {
 			i++;
-			var oldTab = await browser.tabs.get(oldTabId);
-			var tabPinned = oldTab.pinned;
-			var movedTabs : browser.Tabs.Tab | browser.Tabs.Tab[] = [];
+			const oldTab = await browser.tabs.get(oldTabId);
+			const tabPinned = oldTab.pinned;
+			let movedTabs : browser.Tabs.Tab | browser.Tabs.Tab[] = [];
 			if (!tabPinned) {
 				movedTabs = await browser.tabs.move(oldTabId, {windowId: w.id, index: -1});
 			} else {
@@ -54,7 +54,7 @@ export async function createWindowWithTabs(tabs : browser.Tabs.Tab[], isIncognit
 				firstTab = movedTabs;
 			}
 
-			if (!!firstTab) {
+			if (firstTab) {
 				if (tabPinned) {
 					await browser.tabs.update(firstTab.id, {pinned: tabPinned});
 				}
@@ -66,28 +66,28 @@ export async function createWindowWithTabs(tabs : browser.Tabs.Tab[], isIncognit
 
 export async function createWindowWithSessionTabs(session: ISavedSession, tabId: number) {
 
-	var customName : string;
+	let customName : string;
 	if (session && session.name && session.customName) {
 		customName = session.name;
 	}
-	var color = "default";
+	let color = "default";
 	if (session && session.color) {
 		color = session.color;
 	}
 
-	var whitelistWindow = ["left", "top", "width", "height", "incognito", "type"];
+	let whitelistWindow = ["left", "top", "width", "height", "incognito", "type"];
 
 	if (navigator.userAgent.search("Firefox") > -1) {
 		whitelistWindow = ["left", "top", "width", "height", "incognito", "type"];
 	}
 
-	var whitelistTab = ["url", "active", "selected", "pinned", "index"];
+	let whitelistTab = ["url", "active", "selected", "pinned", "index"];
 
 	if (navigator.userAgent.search("Firefox") > -1) {
 		whitelistTab = ["url", "active", "pinned", "index"];
 	}
 
-	var filteredWindow : browser.Windows.CreateCreateDataType = Object.keys(session.windowsInfo)
+	const filteredWindow : browser.Windows.CreateCreateDataType = Object.keys(session.windowsInfo)
 		.filter(function (key) {
 			return whitelistWindow.includes(key);
 		})
@@ -137,10 +137,10 @@ export async function createWindowWithSessionTabs(session: ISavedSession, tabId:
 
 	if (!newWindow) return;
 
-	let emptyTab = newWindow.tabs[0].id;
+	const emptyTab = newWindow.tabs[0].id;
 
 	for (let i = 0; i < session.tabs.length; i++) {
-		let newTab = Object.keys(session.tabs[i])
+		const newTab = Object.keys(session.tabs[i])
 			.filter(function (key) {
 				return whitelistTab.includes(key);
 			})
@@ -149,7 +149,7 @@ export async function createWindowWithSessionTabs(session: ISavedSession, tabId:
 				return obj;
 			}, {});
 
-		var fTab : browser.Tabs.Tab = newTab as browser.Tabs.Tab;
+		const fTab : browser.Tabs.Tab = newTab as browser.Tabs.Tab;
 
 		if (tabId != null && tabId !== fTab.index) {
 			continue;
@@ -197,10 +197,10 @@ async function hideWindows(windowId : number) {
 	if (navigator.userAgent.search("Firefox") > -1) return;
 	if (!windowId || windowId < 0) return;
 
-	let hide_windows = await getLocalStorage("hideWindows", false);
+	const hide_windows = await getLocalStorage("hideWindows", false);
 	if (!hide_windows) return;
 
-	let has_permission = await browser.permissions.contains({permissions: ['system.display']});
+	const has_permission = await browser.permissions.contains({permissions: ['system.display']});
 	if (!has_permission) return;
 
 	let displaylayouts;
@@ -210,10 +210,10 @@ async function hideWindows(windowId : number) {
 		console.error("system.display.getInfo failed (non-fatal):", e);
 		return;
 	}
-	let monitor_bounds = [];
+	const monitor_bounds = [];
 
 	try {
-		for (let displaylayout of displaylayouts) {
+		for (const displaylayout of displaylayouts) {
 			monitor_bounds.push(displaylayout.bounds);
 		}
 	} catch (err) {
@@ -221,14 +221,14 @@ async function hideWindows(windowId : number) {
 		return;
 	}
 
-	let windows = await browser.windows.getAll({populate: true});
+	const windows = await browser.windows.getAll({populate: true});
 	let monitor = null;
 
-	for (let window of windows) {
+	for (const window of windows) {
 		if (window.id === windowId) {
-			for (let bounds_index in monitor_bounds) {
-				let _monitor = monitor_bounds[bounds_index];
-				let _is_in_bounds = is_in_bounds(window, _monitor);
+			for (const bounds_index in monitor_bounds) {
+				const _monitor = monitor_bounds[bounds_index];
+				const _is_in_bounds = is_in_bounds(window, _monitor);
 				if (_is_in_bounds) {
 					monitor = _monitor;
 					break;
@@ -239,7 +239,7 @@ async function hideWindows(windowId : number) {
 
 	if (monitor == null) return;
 
-	for (let window of windows) {
+	for (const window of windows) {
 		if (window.id !== windowId) {
 			if (is_in_bounds(window, monitor)) {
 				await browser.windows.update(window.id, {"state": "minimized"});
@@ -251,8 +251,8 @@ async function hideWindows(windowId : number) {
 export async function windowActive(windowId : number) {
 	if (windowId < 0) return;
 
-	var windows = [];
-	var windowAge = await getLocalStorage("windowAge", []);
+	let windows = [];
+	const windowAge = await getLocalStorage("windowAge", []);
 	if (windowAge instanceof Array) windows = windowAge;
 
 	if (windows.indexOf(windowId) > -1) windows.splice(windows.indexOf(windowId), 1);
@@ -276,13 +276,13 @@ export async function windowActive(windowId : number) {
 
 async function windowFocus(windowId : number) {
 	try {
-		if (!!windowId) {
+		if (windowId) {
 			await windowActive(windowId);
 			// console.log("onFocused", windowId);
 			await hideWindows(windowId);
 		}
 	} catch (e) {
-
+		// Window is gone or state unchanged; nothing to do.
 	}
 }
 
@@ -292,7 +292,7 @@ async function windowCreated(window : browser.Windows.Window) {
 			await windowActive(window.id);
 		}
 	} catch (e) {
-
+		// Window is gone or state unchanged; nothing to do.
 	}
 	// console.log("onCreated " + window.id, window);
 	setTimeout(cleanupDebounce, 250);
@@ -300,11 +300,11 @@ async function windowCreated(window : browser.Windows.Window) {
 
 async function windowRemoved(windowId : number) {
 	try {
-		if (!!windowId) {
+		if (windowId) {
 			await windowActive(windowId);
 		}
 	} catch (e) {
-
+		// Window is gone or state unchanged; nothing to do.
 	}
 	// console.log("onRemoved", windowId);
 }
@@ -322,7 +322,7 @@ export async function checkWindow(windowId : number) {
 	try {
 		const window = await browser.windows.get(windowId, {populate: true});
 
-		let newHash = hashcode(window);
+		const newHash = hashcode(window);
 		hashes.set(windowId, newHash);
 		await setLocalStorageMap(S.windowHashes, hashes);
 	} catch (e) {
@@ -331,7 +331,7 @@ export async function checkWindow(windowId : number) {
 }
 
 export function hashcode(window : browser.Windows.Window) : number {
-	let urls = [];
+	const urls = [];
 	for (let i = 0; i < window.tabs.length; i++) {
 		if (!window.tabs[i].url) continue;
 		urls.push(window.tabs[i].url);
@@ -375,7 +375,7 @@ export async function mergeWindows(targetWindowId?: number): Promise<void> {
 				if (tab.id == null) continue;
 				try {
 					await browser.tabs.move(tab.id, {windowId: target.id, index: -1});
-					if (!!tab.pinned) {
+					if (tab.pinned) {
 						await browser.tabs.update(tab.id, {pinned: true}).catch(() => {});
 					}
 				} catch (e) {

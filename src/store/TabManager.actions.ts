@@ -59,7 +59,7 @@ export async function addWindowFromStore(): Promise<void> {
 			await browser.runtime.sendMessage<ICommand>({command: S.create_window_with_tabs, tabs: incognito_tabs, incognito: true});
 		}
 	}
-	if (!!window.inPopup) window.close();
+	if (window.inPopup) window.close();
 }
 
 export async function pinTabsFromStore(): Promise<void> {

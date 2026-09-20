@@ -1,5 +1,10 @@
 # Technical Debt - Tab Manager Pro
 
+## Theme: Track System Preference Live (Low Priority)
+- **Current**: Dark theme follows the OS only while no explicit choice is stored; matchMedia changes are not observed at runtime
+- **Goal**: Listen to `window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change")` and update the popup in real time
+- **Related**: `isSystemDark()` in `src/popup/views/tabmanager/optionDefaults.ts`; system fallback already implemented in `popup.tsx`, `TabManager.loadStorage()`, and `TabManager.provider.tsx`
+
 ## Session Model Promotion (High Priority)
 - **Current**: Sessions stored as raw window dumps without structured metadata
 - **Goal**: Promote sessions to first-class, tagged, named entities

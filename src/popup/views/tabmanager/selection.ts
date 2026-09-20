@@ -29,7 +29,7 @@ export function readStoredSelection(storage: any): number[] | null {
 }
 
 export function applyRestoredSelection(host: SelectionHost): void {
-	if (!!host.restoredSelection) {
+	if (host.restoredSelection) {
 		for (const id of host.restoredSelection) {
 			if (host.state.tabsbyid.has(id)) {
 				host.state.selection.add(id);
@@ -40,7 +40,7 @@ export function applyRestoredSelection(host: SelectionHost): void {
 }
 
 export function pruneSelection(host: SelectionHost): void {
-	for (let id of host.state.selection.keys()) {
+	for (const id of host.state.selection.keys()) {
 		if (!host.state.tabsbyid.has(id)) {
 			host.state.selection.delete(id);
 			host.setState({lastSelect: id});
@@ -80,7 +80,7 @@ export function toggleSelect(host: SelectionHost, id: number): void {
 		});
 	}
 	host.scrollTo('tab', id);
-	var tab = host.state.tabsbyid.get(id);
+	const tab = host.state.tabsbyid.get(id);
 	const windowComponent = host.getWindowRef(tab.windowId as number);
 	const tabComponent = windowComponent && (windowComponent as any).refs['tab' + id];
 	if (!!windowComponent && !!tabComponent && typeof tabComponent.resolveFavIconUrl === 'function') {
@@ -100,7 +100,7 @@ export function rangeSelect(host: SelectionHost, id: number, tabs: browser.Tabs.
 		toggleSelect(host, id);
 		return;
 	}
-	if (!!lastSelect) {
+	if (lastSelect) {
 		if (host.state.selection.has(lastSelect)) {
 			activate = true;
 		}
@@ -151,8 +151,8 @@ export function rangeSelect(host: SelectionHost, id: number, tabs: browser.Tabs.
 					rightSibling = i;
 				}
 			}
-			let diff1 = rangeIndex1 - leftSibling;
-			let diff2 = rightSibling - rangeIndex1;
+			const diff1 = rangeIndex1 - leftSibling;
+			const diff2 = rightSibling - rangeIndex1;
 			if (diff1 > diff2) {
 				rangeIndex2 = rightSibling;
 			} else {
@@ -172,8 +172,8 @@ export function rangeSelect(host: SelectionHost, id: number, tabs: browser.Tabs.
 					rightSibling = i;
 				}
 			}
-			let diff1 = rangeIndex1 - leftSibling;
-			let diff2 = rightSibling - rangeIndex1;
+			const diff1 = rangeIndex1 - leftSibling;
+			const diff2 = rightSibling - rangeIndex1;
 			if (diff1 > diff2) {
 				rangeIndex2 = leftSibling;
 			} else {
@@ -186,8 +186,8 @@ export function rangeSelect(host: SelectionHost, id: number, tabs: browser.Tabs.
 		lastSelect: tabs[rangeIndex2].id
 	});
 	if (rangeIndex2 < rangeIndex1) {
-		let r1 = rangeIndex2;
-		let r2 = rangeIndex1;
+		const r1 = rangeIndex2;
+		const r2 = rangeIndex1;
 		rangeIndex1 = r1;
 		rangeIndex2 = r2;
 	}

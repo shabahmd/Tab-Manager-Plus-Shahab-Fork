@@ -469,7 +469,7 @@ export class TabOptions extends React.Component<ITabOptions, ITabOptionsState> {
 		);
 	}
 	render() {
-		var children = [];
+		const children = [];
 
 		children.push(this.logo());
 		children.push(this.optionsSection());

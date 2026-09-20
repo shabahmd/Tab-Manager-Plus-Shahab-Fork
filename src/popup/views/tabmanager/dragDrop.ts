@@ -25,11 +25,11 @@ export function beginTabDrag(host: DragDropHost, e : React.DragEvent<HTMLDivElem
 
 export async function dropTabsOnTab(host: DragDropHost, id : number, before : boolean): Promise<void> {
 	const hostState = host.state;
-	var tab : browser.Tabs.Tab = hostState.tabsbyid.get(id);
-	var tabs : browser.Tabs.Tab[] = [...hostState.selection.keys()].map(function(tabId) {
+	const tab : browser.Tabs.Tab = hostState.tabsbyid.get(id);
+	const tabs : browser.Tabs.Tab[] = [...hostState.selection.keys()].map(function(tabId) {
 		return hostState.tabsbyid.get(tabId);
 	});
-	var index = tab.index + (before ? 0 : 1);
+	const index = tab.index + (before ? 0 : 1);
 
 	if (navigator.userAgent.search("Firefox") > -1) {
 		browser.runtime.sendMessage<ICommand>({command: S.move_tabs_within_window, tab_ids: tabs.map(t => t.id), target_window: tab.windowId, target_index: index});
@@ -51,7 +51,7 @@ export async function dropTabsOnTab(host: DragDropHost, id : number, before : bo
 
 export function dropTabsOnWindow(host: DragDropHost, windowId : number): void {
 	const hostState = host.state;
-	var tabs : browser.Tabs.Tab[] = [...hostState.selection.keys()].map(function(id) {
+	const tabs : browser.Tabs.Tab[] = [...hostState.selection.keys()].map(function(id) {
 		return hostState.tabsbyid.get(id);
 	});
 

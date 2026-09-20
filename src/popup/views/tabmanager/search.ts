@@ -37,10 +37,10 @@ export function applySearch(host: SearchHost, e): void {
 		for (const id of idList) {
 			const tab = host.state.tabsbyid.get(id);
 			let tabSearchTerm;
-			if (!!tab.title) tabSearchTerm = tab.title;
-			if (!!tab.url) tabSearchTerm += " " + tab.url;
+			if (tab.title) tabSearchTerm = tab.title;
+			if (tab.url) tabSearchTerm += " " + tab.url;
 			tabSearchTerm = tabSearchTerm.toLowerCase();
-			let match = matchTabSearch(tabSearchTerm, e.target.value, searchType, searchTerms);
+			const match = matchTabSearch(tabSearchTerm, e.target.value, searchType, searchTerms);
 		if (match || tab.pinned) {
 			hiddenCount -= host.state.hiddenTabs.has(id) ? 1 : 0;
 			host.state.selection.add(id);

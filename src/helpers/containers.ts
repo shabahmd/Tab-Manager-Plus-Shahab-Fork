@@ -26,7 +26,7 @@ export function normalizeContainerId(tab : {cookieStoreId?: string} | undefined)
 
 export function getContainerColor(containerId : string, customColors? : Record<string, string>) : string {
 	if (!!customColors && !!customColors[containerId]) return customColors[containerId];
-	if (!!DEFAULT_CONTAINER_COLORS[containerId]) return DEFAULT_CONTAINER_COLORS[containerId];
+	if (DEFAULT_CONTAINER_COLORS[containerId]) return DEFAULT_CONTAINER_COLORS[containerId];
 	// Deterministic fallback color for unknown container ids
 	let hash = 0;
 	for (let i = 0; i < containerId.length; i++) {
@@ -39,7 +39,7 @@ export function getContainerName(containerId : string) : string {
 	if (containerId === DEFAULT_CONTAINER_ID) return "No Container";
 	if (containerId === PRIVATE_CONTAINER_ID) return "Private";
 	const match = containerId.match(/^firefox-container-(\d+)$/);
-	if (!!match) return "Container " + match[1];
+	if (match) return "Container " + match[1];
 	return containerId;
 }
 

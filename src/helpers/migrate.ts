@@ -37,24 +37,24 @@ const boolkeys = [
 	let needsMigration = false;
 
 	for (const key of stringkeys) {
-		if (!!localStorage[key]) { needsMigration = true; break; }
+		if (localStorage[key]) { needsMigration = true; break; }
 	}
 
 	for (const key of boolkeys) {
-		if (!!localStorage[key]) { needsMigration = true; break; }
+		if (localStorage[key]) { needsMigration = true; break; }
 	}
 
 	for (const key of jsonkeys) {
-		if (!!localStorage[key]) { needsMigration = true; break; }
+		if (localStorage[key]) { needsMigration = true; break; }
 	}
 
 	if (needsMigration) {
-		let keyValue = {};
-		let values : Record<string, unknown> = await browser.storage.local.get(null);
-		if (!!values) {
+		const keyValue = {};
+		const values : Record<string, unknown> = await browser.storage.local.get(null);
+		if (values) {
 			// delete all values that don't have a tabs array
 			for (const key in values) {
-				if (!!(values[key] as ISavedSession).tabs) {
+				if ((values[key] as ISavedSession).tabs) {
 					debugError("session deleting " + key);
 					await browser.storage.local.remove(key);
 				} else {
@@ -65,15 +65,15 @@ const boolkeys = [
 		}
 
 		for (const key of stringkeys) {
-			if (!!localStorage[key]) keyValue[key] = localStorage[key];
+			if (localStorage[key]) keyValue[key] = localStorage[key];
 		}
 
 		for (const key of boolkeys) {
-			if (!!localStorage[key]) keyValue[key] = toBoolean(localStorage[key]);
+			if (localStorage[key]) keyValue[key] = toBoolean(localStorage[key]);
 		}
 
 		for (const key of jsonkeys) {
-			if (!!localStorage[key]) keyValue[key] = JSON.parse(localStorage[key]);
+			if (localStorage[key]) keyValue[key] = JSON.parse(localStorage[key]);
 		}
 		await browser.storage.local.set(keyValue);
 

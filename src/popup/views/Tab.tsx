@@ -63,7 +63,7 @@ export class Tab extends React.Component<ITab, ITabState> {
 					key={"tab-icon-" + this.props.tab.id}
 					className="iconoverlay "
 					style={{
-						backgroundImage: !!this.state.favIcon ? "url(" + this.state.favIcon + ")" : ""
+						backgroundImage: this.state.favIcon ? "url(" + this.state.favIcon + ")" : ""
 					}}
 				/>
 			);
@@ -74,7 +74,7 @@ export class Tab extends React.Component<ITab, ITabState> {
 			);
 		}
 
-		var tabDom = {
+		const tabDom = {
 			className:
 				"icon tab " +
 				(this.props.selected ? "selected " : "") +
@@ -95,7 +95,7 @@ export class Tab extends React.Component<ITab, ITabState> {
 			style:
 				(this.props.layout === "vertical"
 					? { }
-					: { backgroundImage: !!this.state.favIcon ? "url(" + this.state.favIcon + ")" : "" }
+					: { backgroundImage: this.state.favIcon ? "url(" + this.state.favIcon + ")" : "" }
 				)
 			,
 			id: this.props.id,
@@ -107,7 +107,7 @@ export class Tab extends React.Component<ITab, ITabState> {
 			ref: this.state.tabRef
 		};
 
-		if (!!this.props.draggable) {
+		if (this.props.draggable) {
 			tabDom["onDragStart"] = this.dragStart;
 			tabDom["onDragOver"] = this.dragOver;
 			tabDom["onDragLeave"] = this.dragOut;
@@ -148,7 +148,7 @@ export class Tab extends React.Component<ITab, ITabState> {
 	async click(e : React.MouseEvent<HTMLDivElement>) {
 		this.stopProp(e);
 
-		var tabId : number = this.props.tab.id;
+		const tabId : number = this.props.tab.id;
 
 		if (e.button === 1) {
 			this.props.middleClick(tabId);
@@ -160,10 +160,10 @@ export class Tab extends React.Component<ITab, ITabState> {
 				this.props.select(tabId);
 			}
 		} else {
-			if (!!this.props.click) {
+			if (this.props.click) {
 				this.props.click(e, this.props.tab.id);
 			} else {
-				let windowId = this.props.window.id;
+				const windowId = this.props.window.id;
 
 				if (navigator.userAgent.search("Firefox") > -1) {
 					browser.runtime.sendMessage<ICommand>({
@@ -178,7 +178,7 @@ export class Tab extends React.Component<ITab, ITabState> {
 				}
 			}
 
-			if (!!window.inPopup) window.close();
+			if (window.inPopup) window.close();
 		}
 		return false;
 	}
@@ -198,10 +198,10 @@ export class Tab extends React.Component<ITab, ITabState> {
 		if (!this.props.draggable) return false;
 		if (!this.props.drag) return false;
 
-		let favicon = this.props.dragFavicon();
+		const favicon = this.props.dragFavicon();
 		let draggingover;
 
-		var before = this.state.draggingOver;
+		const before = this.state.draggingOver;
 		if (this.props.layout === "vertical") {
 			draggingover = e.nativeEvent.offsetY > this.state.tabRef.current.clientHeight / 2 ? "bottom" : "top";
 		} else {
@@ -236,7 +236,7 @@ export class Tab extends React.Component<ITab, ITabState> {
 
 		this.stopProp(e);
 
-		var before = this.state.draggingOver === "top" || this.state.draggingOver === "left";
+		const before = this.state.draggingOver === "top" || this.state.draggingOver === "left";
 
 		this.setState({
 			draggingOver: "",
@@ -256,17 +256,16 @@ export class Tab extends React.Component<ITab, ITabState> {
 		// 	image = "url(" + image + ")";
 		// }else
 
-		var _url : string = this.props.tab.url || this.props.tab.pendingUrl || "";
+		const _url : string = this.props.tab.url || this.props.tab.pendingUrl || "";
 
 		if (!!_url && navigator.userAgent.search("Firefox") === -1) {
-			image = "chrome-extension://" + chrome.runtime.id + "/_favicon/?pageUrl=" + encodeURIComponent(_url) + "&size=64"; // &" + Date.now();
-		} else if (!!_url && _url.indexOf("chrome://") !== 0 && _url.indexOf("about:") !== 0) {
-			 image = this.props.tab.favIconUrl ? "" + this.props.tab.favIconUrl + "" : "";
-		 } else {
+			image = "chrome-extension://" + chrome.runtime.id + "/_favicon/?pageUrl=" + encodeURIComponent(_url) + "&size=64"; // &" + Date.now();			} else if (!!_url && _url.indexOf("chrome://") !== 0 && _url.indexOf("about:") !== 0) {
+				image = this.props.tab.favIconUrl ? "" + this.props.tab.favIconUrl + "" : "";
+			} else {
 			const favIcons = ["bookmarks", "chrome", "crashes", "downloads", "extensions", "flags", "history", "settings"];
-			let iconUrl = _url;
+			const iconUrl = _url;
 			if (iconUrl.length > 9) {
-				let iconName = iconUrl.slice(9).match(/^\w+/g);
+				const iconName = iconUrl.slice(9).match(/^\w+/g);
 				debugLog(iconName);
 				image = !iconName || favIcons.indexOf(iconName[0]) < 0 ? "" : "../images/chrome/" + iconName[0] + ".png";
 			}

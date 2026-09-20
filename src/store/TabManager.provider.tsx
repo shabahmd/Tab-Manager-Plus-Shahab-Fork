@@ -3,6 +3,8 @@ import {useAppStore} from "@store/useAppStore";
 import {useTabManagerUI} from "@store/useTabManagerUI";
 import {getLocalStorage, setLocalStorage} from "@helpers/storage";
 import {debugError, debugLog} from "@helpers/debug";
+import {isSystemDark} from "../popup/views/tabmanager/optionDefaults";
+import * as browser from 'webextension-polyfill';
 
 export function TabManagerProvider({children}: { children: React.ReactNode }) {
 	return <>{children}</>;
@@ -14,7 +16,8 @@ export async function initStoreFromStorage(): Promise<void> {
 		const tabWidth = await getLocalStorage("tabWidth", 800);
 		const tabHeight = await getLocalStorage("tabHeight", 600);
 		const layout = await getLocalStorage("layout", "blocks");
-		const dark = await getLocalStorage("dark", false);
+		const darkStorage = await browser.storage.local.get("dark");
+		const dark = darkStorage.dark !== undefined ? (darkStorage.dark as boolean) : isSystemDark();
 		const compact = await getLocalStorage("compact", false);
 		const tabactions = await getLocalStorage("tabactions", true);
 		const badge = await getLocalStorage("badge", true);

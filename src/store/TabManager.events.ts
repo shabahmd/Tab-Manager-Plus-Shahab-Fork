@@ -16,8 +16,8 @@ export async function updateFromStore(): Promise<void> {
 	const sort_windows = await getLocalStorage("windowAge", []);
 
 	windows.sort(function(a, b) {
-		var aSort = sort_windows.indexOf(a.id);
-		var bSort = sort_windows.indexOf(b.id);
+		const aSort = sort_windows.indexOf(a.id);
+		const bSort = sort_windows.indexOf(b.id);
 		if (a.state === "minimized" && b.state !== "minimized") return 1;
 		if (b.state === "minimized" && a.state !== "minimized") return -1;
 		if (aSort < bSort) return -1;
@@ -38,7 +38,7 @@ export async function updateFromStore(): Promise<void> {
 	}
 
 	// Clean stale selection
-	for (let id of store.selection.keys()) {
+	for (const id of store.selection.keys()) {
 		if (!tabsbyid.has(id)) {
 			store.toggleSelection(id);
 		}

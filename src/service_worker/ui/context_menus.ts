@@ -13,7 +13,7 @@ export async function setupContextMenus() {
 		contexts: ["action"]
 	});
 
-	if (!!browser.action.openPopup) {
+	if (browser.action.openPopup) {
 		browser.contextMenus.create({
 			id: S.open_popup,
 			title: "📑 Open popup",
@@ -21,7 +21,7 @@ export async function setupContextMenus() {
 		});
 	}
 
-	if (!!browser.sidebarAction) {
+	if (browser.sidebarAction) {
 		browser.contextMenus.create({
 			id: S.open_sidebar,
 			title: "🗂 Open sidebar",

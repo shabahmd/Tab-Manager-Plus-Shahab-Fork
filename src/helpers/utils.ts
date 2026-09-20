@@ -3,14 +3,14 @@
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
 export function debounce(func, wait, immediate = false) {
-	var timeout;
+	let timeout;
 	return function (...args: any[]) {
-		var context = this;
-		var later = function later() {
+		const context = this;
+		const later = function later() {
 			timeout = null;
 			if (!immediate) func.apply(context, args);
 		};
-		var callNow = immediate && !timeout;
+		const callNow = immediate && !timeout;
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
 		if (callNow) func.apply(context, args);
@@ -18,7 +18,7 @@ export function debounce(func, wait, immediate = false) {
 }
 
 export function is_in_bounds(object, bounds) {
-	var C = object, B = bounds;
+	const C = object, B = bounds;
 	if (C.left >= B.left && C.left <= B.left + B.width) {
 		if (C.top >= B.top && C.top <= B.top + B.height) {
 			return true;
@@ -28,14 +28,14 @@ export function is_in_bounds(object, bounds) {
 }
 
 export function isInViewport(element, ofElement) {
-	var rect = element.getBoundingClientRect();
+	const rect = element.getBoundingClientRect();
 	return rect.top >= 0 && rect.left >= 0 && rect.bottom <= ofElement.height && rect.right <= ofElement.width;
 }
 
 export function stringHashcode(string) : number {
-	var hash = 0;
-	for (var i = 0; i < string.length; i++) {
-		var code = string.charCodeAt(i);
+	let hash = 0;
+	for (let i = 0; i < string.length; i++) {
+		const code = string.charCodeAt(i);
 		hash = ((hash << 5) - hash) + code;
 		hash = hash & hash; // Convert to 32bit integer
 	}

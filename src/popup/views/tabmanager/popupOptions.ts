@@ -14,7 +14,7 @@ export interface PopupOptionsHost {
 }
 
 export async function changeTabLimitValue(host: PopupOptionsHost, e : React.ChangeEvent<HTMLInputElement>): Promise<void> {
-	var _tab_limit = parseInt(e.target.value);
+	const _tab_limit = parseInt(e.target.value);
 	host.setState({
 		tabLimit: _tab_limit
 	});
@@ -30,7 +30,7 @@ export function tabLimitHelperText(host: PopupOptionsHost): void {
 }
 
 export async function changeTabWidthValue(host: PopupOptionsHost, e : React.ChangeEvent<HTMLInputElement>): Promise<void> {
-	var _tab_width = parseInt(e.target.value);
+	const _tab_width = parseInt(e.target.value);
 	host.setState({
 		tabWidth: _tab_width
 	});
@@ -47,7 +47,7 @@ export function tabWidthHelperText(host: PopupOptionsHost): void {
 }
 
 export async function changeTabHeightValue(host: PopupOptionsHost, e : React.ChangeEvent<HTMLInputElement>): Promise<void> {
-	var _tab_height = parseInt(e.target.value);
+	const _tab_height = parseInt(e.target.value);
 	host.setState({
 		tabHeight: _tab_height
 	});
@@ -64,7 +64,7 @@ export function tabHeightHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleAnimationsState(host: PopupOptionsHost): Promise<void> {
-	var _animations = !host.state.animations;
+	const _animations = !host.state.animations;
 	host.setState({ animations: _animations });
 	await setLocalStorage("animations", _animations);
 	animationsHelperText(host);
@@ -78,7 +78,7 @@ export function animationsHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleWindowTitlesState(host: PopupOptionsHost): Promise<void> {
-	var _window_titles = !host.state.windowTitles;
+	const _window_titles = !host.state.windowTitles;
 	host.setState({windowTitles: _window_titles});
 	await setLocalStorage("windowTitles", _window_titles);
 	windowTitlesHelperText(host);
@@ -92,7 +92,7 @@ export function windowTitlesHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleCompactState(host: PopupOptionsHost): Promise<void> {
-	var _compact = !host.state.compact;
+	const _compact = !host.state.compact;
 	host.setState({compact: _compact});
 	await setLocalStorage("compact", _compact);
 	compactHelperText(host);
@@ -106,17 +106,17 @@ export function compactHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleDarkState(host: PopupOptionsHost): Promise<void> {
-	var _dark = !host.state.dark;
+	const _dark = !host.state.dark;
 	host.setState({dark: _dark});
 	await setLocalStorage("dark", _dark);
 
 	darkHelperText(host);
 	if (_dark) {
-		document.body.className = "dark";
-		document.documentElement.className = "dark";
+		document.body.classList.add("dark");
+		document.documentElement.classList.add("dark");
 	} else {
-		document.body.className = "";
-		document.documentElement.className = "";
+		document.body.classList.remove("dark");
+		document.documentElement.classList.remove("dark");
 	}
 	host.forceUpdate();
 }
@@ -128,7 +128,7 @@ export function darkHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleTabActionsState(host: PopupOptionsHost): Promise<void> {
-	var _tabactions = !host.state.tabactions;
+	const _tabactions = !host.state.tabactions;
 	host.setState({tabactions: _tabactions});
 	await setLocalStorage("tabactions", _tabactions);
 	tabActionsHelperText(host);
@@ -142,7 +142,7 @@ export function tabActionsHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleBadgeState(host: PopupOptionsHost): Promise<void> {
-	var _badge = !host.state.badge;
+	const _badge = !host.state.badge;
 	host.setState({badge: _badge});
 	await setLocalStorage("badge", _badge);
 	badgeHelperText(host);
@@ -157,7 +157,7 @@ export function badgeHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleOpenInOwnTabState(host: PopupOptionsHost): Promise<void> {
-	var _openInOwnTab = !host.state.openInOwnTab;
+	const _openInOwnTab = !host.state.openInOwnTab;
 	host.setState({openInOwnTab: _openInOwnTab});
 	await setLocalStorage("openInOwnTab", _openInOwnTab);
 	openInOwnTabHelperText(host);
@@ -172,11 +172,11 @@ export function openInOwnTabHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleHideState(host: PopupOptionsHost): Promise<void> {
-	var _hide_windows = host.state.hideWindows;
+	let _hide_windows = host.state.hideWindows;
 	if (navigator.userAgent.search("Firefox") > -1) {
 		_hide_windows = false;
 	} else {
-		var granted = await browser.permissions.request({ permissions: ["system.display"] } as any).catch(() => false);
+		const granted = await browser.permissions.request({ permissions: ["system.display"] } as any).catch(() => false);
 		if (granted) {
 			_hide_windows = !_hide_windows;
 		} else {
@@ -199,7 +199,7 @@ export function hideHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleFilterMismatchedTabsState(host: PopupOptionsHost): Promise<void> {
-	var _filter_tabs = !host.state.filterTabs;
+	const _filter_tabs = !host.state.filterTabs;
 	host.setState({
 		filterTabs: _filter_tabs
 	});
@@ -208,7 +208,7 @@ export async function toggleFilterMismatchedTabsState(host: PopupOptionsHost): P
 }
 
 export async function toggleEnterToFocusState(host: PopupOptionsHost): Promise<void> {
-	var _enter_to_focus = !host.state.enterToFocus;
+	const _enter_to_focus = !host.state.enterToFocus;
 	host.setState({
 		enterToFocus: _enter_to_focus
 	});
@@ -224,7 +224,7 @@ export function enterToFocusHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleOrderByTabCountState(host: PopupOptionsHost): Promise<void> {
-	var _order_by_count = !host.state.orderByTabCount;
+	const _order_by_count = !host.state.orderByTabCount;
 	host.setState({
 		orderByTabCount: _order_by_count
 	});
@@ -241,7 +241,7 @@ export function orderByTabCountHelperText(host: PopupOptionsHost): void {
 }
 
 export async function toggleDisableResortingState(host: PopupOptionsHost): Promise<void> {
-	var _disable_resorting = !host.state.disableResorting;
+	const _disable_resorting = !host.state.disableResorting;
 	host.setState({
 		disableResorting: _disable_resorting
 	});

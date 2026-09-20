@@ -4,7 +4,7 @@ import {collectContainerIds, ALL_CONTAINERS} from "@helpers/containers";
 import {handleManagerKey} from "./tabmanager/keyboard";
 import {applyRestoredSelection, clearSelectionState, persistSelection, pruneSelection, rangeSelect, readStoredSelection, toggleSelect} from "./tabmanager/selection";
 import {sortWindows} from "./tabmanager/windowSort";
-import {applyPopupOptionDefaults} from "./tabmanager/optionDefaults";
+import {applyPopupOptionDefaults, isSystemDark} from "./tabmanager/optionDefaults";
 import {exportSessionsFile, exportSessionsHelperText, importSessionsFile, importSessionsHelperText, sessionsFeatureHelperText, syncSessions, toggleSessionsFeature} from "./tabmanager/sessions";
 import {beginTabDrag, dropTabsOnTab, dropTabsOnWindow} from "./tabmanager/dragDrop";
 import {animationsHelperText, badgeHelperText, changeTabHeightValue, changeTabLimitValue, changeTabWidthValue, compactHelperText, darkHelperText, disableResortingHelperText, enterToFocusHelperText, hideHelperText, openInOwnTabHelperText, orderByTabCountHelperText, tabActionsHelperText, tabHeightHelperText, tabLimitHelperText, tabWidthHelperText, toggleAnimationsState, toggleBadgeState, toggleCompactState, toggleDarkState, toggleDisableResortingState, toggleEnterToFocusState, toggleFilterMismatchedTabsState, toggleHideState, toggleOpenInOwnTabState, toggleOrderByTabCountState, toggleTabActionsState, toggleWindowTitlesState, windowTitlesHelperText} from "./tabmanager/popupOptions";
@@ -35,25 +35,25 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 	constructor(props : ITabManager) {
 		super(props);
 
-		let layout = "blocks";
-		let animations = true;
-		let windowTitles = true;
-		let compact = false;
-		let dark = false;
-		let tabactions = true;
-		let badge = true;
-		let sessionsFeature = false;
-		let hideWindows = false;
-		let filterTabs = false;
-		let enterToFocus = false;
-		let orderByTabCount = false;
-		let disableResorting = false;
-		let tabLimit = 0;
-		let openInOwnTab = false;
-		let tabWidth = 800;
-		let tabHeight = 600;
+		const layout = "blocks";
+		const animations = true;
+		const windowTitles = true;
+		const compact = false;
+		const dark = isSystemDark();
+		const tabactions = true;
+		const badge = true;
+		const sessionsFeature = false;
+		const hideWindows = false;
+		const filterTabs = false;
+		const enterToFocus = false;
+		const orderByTabCount = false;
+		const disableResorting = false;
+		const tabLimit = 0;
+		const openInOwnTab = false;
+		const tabWidth = 800;
+		const tabHeight = 600;
 
-		let resetTimeout = -1;
+		const resetTimeout = -1;
 		// var closeTimeout;
 
 		this.state = {
@@ -119,7 +119,6 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 		this.darkText = this.darkText.bind(this);
 		this.deleteTabs = this.deleteTabs.bind(this);
 		this.discardTabs = this.discardTabs.bind(this);
-		this.donate = this.donate.bind(this);
 		this.exportSessions = this.exportSessions.bind(this);
 		this.exportSessionsText = this.exportSessionsText.bind(this);
 		this.getTip = this.getTip.bind(this);
@@ -170,7 +169,7 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 	}
 
 	async loadStorage() {
-		var storage = await browser.storage.local.get(null);
+		const storage = await browser.storage.local.get(null);
 
 		const options = applyPopupOptionDefaults(storage);
 
@@ -180,14 +179,23 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 			tabNames: readStoredTabNames(storage)
 		});
 
+		// When no stored preference exists, follow the system theme without
+		// pinning it to storage, so the theme keeps tracking OS changes.
+		const dark = options.dark;
+		const needsUpdate = storage["_darkNeedsSystemTheme"] === true;
+		delete storage["_darkNeedsSystemTheme"];
+		if (needsUpdate) delete storage["dark"];
+
 		storage["version"] = window.extensionVersion;
 
 		await browser.storage.local.set(storage);
 
-		if (options.dark) {
-			document.body.className = "dark";
+		if (dark) {
+			document.body.classList.add("dark");
+			document.documentElement.classList.add("dark");
 		} else {
-			document.body.className = "";
+			document.body.classList.remove("dark");
+			document.documentElement.classList.remove("dark");
 		}
 
 		this.setState({
@@ -199,7 +207,7 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 			tabWidth: options.tabWidth,
 			tabHeight: options.tabHeight,
 			compact: options.compact,
-			dark: options.dark,
+			dark: dark,
 			tabactions: options.tabactions,
 			badge: options.badge,
 			hideWindows: options.hideWindows,
@@ -219,10 +227,10 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 		hoverIconStatus(this, e);
 	}
 	render() {
-		let _this = this;
+		const _this = this;
 
 		// let hiddenCount = this.state.hiddenCount || 0;
-		let tabCount = this.state.tabCount;
+		const tabCount = this.state.tabCount;
 
 		// Firefox container filter (only shown when multiple containers exist)
 		const containerIds = collectContainerIds(this.state.tabsbyid.values());
@@ -365,7 +373,6 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 					topText={this.state.topText}
 					bottomText={this.state.bottomText}
 					tip={this.getTip()}
-					onDonate={this.donate}
 					onRate={this.rateExtension}
 					onToggleOptions={this.toggleOptions}
 					onHoverIcon={this.hoverIcon}
@@ -439,17 +446,13 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 		}
 		this.forceUpdate();
 	}
-	donate() {
-		browser.tabs.create({ url: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=67TZLSEGYQFFW" });
-		this.forceUpdate();
-	}
 	toggleOptions() {
 		this.setState({ optionsActive: !this.state.optionsActive });
 		this.forceUpdate();
 	}
 	toggleColors(active : boolean, windowId : number) {
 		this.setState({
-			colorsActive: !!active ? windowId : 0
+			colorsActive: active ? windowId : 0
 		})
 		debugError("colorsActive", active, windowId, this.state.colorsActive);
 		this.forceUpdate();
@@ -579,10 +582,10 @@ export class TabManager extends React.Component<ITabManager, ITabManagerState> {
 	}
 	selectWindowTab(windowId, tabPosition) {
 		if (!tabPosition || tabPosition < 1) tabPosition = 1;
-		for (let _w of this.state.windows) {
+		for (const _w of this.state.windows) {
 			if (_w.id !== windowId) continue;
 			let i = 0;
-			for (let _t of _w.tabs) {
+			for (const _t of _w.tabs) {
 				i++;
 				if ((_w.tabs.length >= tabPosition && tabPosition === i) || (_w.tabs.length < tabPosition && _w.tabs.length === i)) {
 					this.state.selection.clear();

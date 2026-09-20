@@ -87,7 +87,7 @@ export function handleManagerKey(host: ManagerKeyHost, e) {
 		e.keyCode === 32
 	) {
 		if (document.activeElement !== host.refs.searchbox) {
-			var activeInputElement = document.activeElement as HTMLInputElement;
+			const activeInputElement = document.activeElement as HTMLInputElement;
 			debugLog(activeInputElement);
 			debugLog(host.refs.searchbox);
 			if (activeInputElement.type !== "text" && activeInputElement.type !== "input") {
@@ -104,7 +104,7 @@ export function handleManagerKey(host: ManagerKeyHost, e) {
 	*/
 	if (e.keyCode >= 37 && e.keyCode <= 40) {
 		if (document.activeElement !== host.refs.windowcontainer && document.activeElement !== host.refs.searchbox) {
-			debugLog(activeInputElement);
+			debugLog(document.activeElement);
 			debugLog(host.refs.windowcontainer);
 			(host.refs.windowcontainer as HTMLElement)?.focus();
 		}
@@ -143,8 +143,9 @@ export function handleManagerKey(host: ManagerKeyHost, e) {
 }
 
 function navigateTabsLeftRight(host: ManagerKeyHost, goLeft: boolean, goRight: boolean, altKey: boolean) {
-	let selectedTabs = [...host.state.selection.keys()];
+	const selectedTabs = [...host.state.selection.keys()];
 	if (!altKey && selectedTabs.length > 1) {
+		// Multi-tab selection without Alt: movement keys are handled elsewhere.
 	} else {
 		let found = false;
 		let selectedNext = false;
@@ -155,7 +156,7 @@ function navigateTabsLeftRight(host: ManagerKeyHost, goLeft: boolean, goRight: b
 		if (selectedTabs.length === 1) {
 			selectedTab = selectedTabs[0];
 		} else if (selectedTabs.length > 1) {
-			if (!!host.state.lastSelect) {
+			if (host.state.lastSelect) {
 				selectedTab = host.state.lastSelect;
 			} else {
 				selectedTab = selectedTabs[0];
@@ -163,10 +164,12 @@ function navigateTabsLeftRight(host: ManagerKeyHost, goLeft: boolean, goRight: b
 		} else if (selectedTabs.length === 0 && !!host.state.lastSelect) {
 			selectedTab = host.state.lastSelect;
 		}
-		if (!!host.state.lastDirection) {
-			if (goRight && host.state.lastDirection === "goRight") {
-			} else if (goLeft && host.state.lastDirection === "goLeft") {
-			} else if (selectedTabs.length > 1) {
+		if (host.state.lastDirection) {
+		if (goRight && host.state.lastDirection === "goRight") {
+			// Already moving right; fall through to continue right.
+		} else if (goLeft && host.state.lastDirection === "goLeft") {
+			// Already moving left; fall through to continue left.
+		} else if (selectedTabs.length > 1) {
 				host.select(host.state.lastSelect);
 				host.setState({
 					lastDirection: ""
@@ -198,7 +201,7 @@ function navigateTabsLeftRight(host: ManagerKeyHost, goLeft: boolean, goRight: b
 					} else if (selectedTab === _t.id) {
 						if (goRight) {
 							selectedNext = true;
-						} else if (!!prev) {
+						} else if (prev) {
 							if (!altKey) host.state.selection.clear();
 							host.select(prev);
 							found = true;
@@ -230,7 +233,7 @@ function navigateTabsLeftRight(host: ManagerKeyHost, goLeft: boolean, goRight: b
 					} else if (selectedTab === _t.id) {
 						if (goRight) {
 							selectedNext = true;
-						} else if (!!prev) {
+						} else if (prev) {
 							if (!altKey) host.state.selection.clear();
 							host.select(prev);
 							found = true;
@@ -260,8 +263,9 @@ function navigateTabsLeftRight(host: ManagerKeyHost, goLeft: boolean, goRight: b
 }
 
 function navigateWindowsUpDown(host: ManagerKeyHost, goUp: boolean, goDown: boolean) {
-	let selectedTabs = [...host.state.selection.keys()];
+	const selectedTabs = [...host.state.selection.keys()];
 	if (selectedTabs.length > 1) {
+		// Multi-tab selection: vertical window navigation is handled elsewhere.
 	} else {
 		let found = false;
 		let selectedNext = false;
@@ -291,7 +295,7 @@ function navigateWindowsUpDown(host: ManagerKeyHost, goUp: boolean, goDown: bool
 						if (goDown) {
 							selectedNext = true;
 							break;
-						} else if (!!prev) {
+						} else if (prev) {
 							host.selectWindowTab(prev, tabPosition);
 							found = true;
 							break;
@@ -322,7 +326,7 @@ function navigateWindowsUpDown(host: ManagerKeyHost, goUp: boolean, goDown: bool
 						if (goDown) {
 							selectedNext = true;
 							break;
-						} else if (!!prev) {
+						} else if (prev) {
 							host.selectWindowTab(prev, tabPosition);
 							found = true;
 							break;

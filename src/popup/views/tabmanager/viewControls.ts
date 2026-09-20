@@ -30,7 +30,7 @@ export async function changeContainerColorValue(host: ViewControlsHost, e : Reac
 }
 
 export async function changePopupLayout(host: ViewControlsHost, layout): Promise<void> {
-	var newLayout;
+	let newLayout;
 	if (layout && typeof (layout) === "string") {
 		newLayout = layout;
 	} else {

@@ -14,11 +14,11 @@ export interface SessionHost {
 }
 
 export async function syncSessions(host: SessionHost): Promise<void> {
-	let values = await getLocalStorage('sessions', {});
+	const values = await getLocalStorage('sessions', {});
 	//console.log(values);
-	let sessions : ISavedSession[] = [];
-	for (let key in values) {
-		let sess = values[key];
+	const sessions : ISavedSession[] = [];
+	for (const key in values) {
+		const sess = values[key];
 		if (sess.id && sess.tabs && sess.windowsInfo) {
 			sessions.push(sess);
 		}
@@ -30,7 +30,7 @@ export async function syncSessions(host: SessionHost): Promise<void> {
 }
 
 export async function toggleSessionsFeature(host: SessionHost): Promise<void> {
-	var _sessionsFeature = !host.state.sessionsFeature;
+	const _sessionsFeature = !host.state.sessionsFeature;
 	host.setState({sessionsFeature: _sessionsFeature});
 	await setLocalStorage("sessionsFeature", _sessionsFeature);
 	sessionsFeatureHelperText(host);
@@ -48,18 +48,18 @@ export function exportSessionsFile(host: SessionHost): void {
 		window.alert("You have currently no windows saved for later. There is nothing to export.");
 		return;
 	}
-	var exportName = "tab-manager-pro-backup";
-	var today = new Date();
-	var y = today.getFullYear();
+	let exportName = "tab-manager-pro-backup";
+	const today = new Date();
+	const y = today.getFullYear();
 	// JavaScript months are 0-based.
-	var m = ("0" + (today.getMonth() + 1)).slice(-2);
-	var d = ("0" + today.getDate()).slice(-2);
-	var h = ("0" + today.getHours()).slice(-2);
-	var mi = ("0" + today.getMinutes()).slice(-2);
-	var s = ("0" + today.getSeconds()).slice(-2);
+	const m = ("0" + (today.getMonth() + 1)).slice(-2);
+	const d = ("0" + today.getDate()).slice(-2);
+	const h = ("0" + today.getHours()).slice(-2);
+	const mi = ("0" + today.getMinutes()).slice(-2);
+	const s = ("0" + today.getSeconds()).slice(-2);
 	exportName += "-" + y + m + d + "-" + h + mi + "-" + s;
-	var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(host.state.sessions, null, 2));
-	var downloadAnchorNode = document.createElement("a");
+	const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(host.state.sessions, null, 2));
+	const downloadAnchorNode = document.createElement("a");
 	downloadAnchorNode.setAttribute("href", dataStr);
 	downloadAnchorNode.setAttribute("download", exportName + ".json");
 	document.body.appendChild(downloadAnchorNode); // required for firefox
@@ -83,19 +83,19 @@ export function importSessionsFile(host: SessionHost, evt : React.ChangeEvent<HT
 		}
 	}
 	try {
-		let inputField = evt.target; // #session_import
-		let files = evt.target.files;
+		const inputField = evt.target; // #session_import
+		const files = evt.target.files;
 		if (!files.length) {
 			alert("No file selected!");
 			host.setState({ bottomText: "Error: Could not read the backup file!" });
 			return;
 		}
-		let file = files[0];
-		let reader = new FileReader();
+		const file = files[0];
+		const reader = new FileReader();
 
 		reader.onload = async event => {
 			//console.log('FILE CONTENT', event.target.result);
-			var backupFile;
+			let backupFile;
 			try {
 				backupFile = JSON.parse(event.target.result.toString());
 			} catch (err) {
@@ -104,11 +104,11 @@ export function importSessionsFile(host: SessionHost, evt : React.ChangeEvent<HT
 				host.setState({ bottomText: "Error: Could not read the backup file!" });
 			}
 			if (!!backupFile && backupFile.length > 0) {
-				var success = backupFile.length;
+				let success = backupFile.length;
 				for (let i = 0; i < backupFile.length; i++) {
-					var newSession = backupFile[i];
+					const newSession = backupFile[i];
 					if (newSession.windowsInfo && newSession.tabs && newSession.id) {
-						let sessions = await getLocalStorage('sessions', {});
+						const sessions = await getLocalStorage('sessions', {});
 						sessions[newSession.id] = newSession;
 						//this.state.sessions.push(obj);
 
